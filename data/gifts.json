@@ -1,0 +1,188 @@
+{
+  "currency": "BRL",
+  "customAmount": { "min": 10, "max": 50000 },
+  "categories": [
+    { "id": "lua-de-mel", "label": "Lua de mel" },
+    { "id": "casa", "label": "Casinha nova" },
+    { "id": "noivo", "label": "Para el novio" },
+    { "id": "noiva", "label": "Para a noiva" },
+    { "id": "zoeira", "label": "Zoeira" }
+  ],
+  "items": [
+    {
+      "id": "cota-lua-de-mel",
+      "category": "lua-de-mel",
+      "emoji": "✈️",
+      "title": "Cota da lua de mel",
+      "description": "Para o casal sumir por uns dias e voltar bronzeado, descansado e sem responder grupo de WhatsApp.",
+      "price": 2000,
+      "tag": "Mais pedido",
+      "repeatable": true
+    },
+    {
+      "id": "jantar-luz-de-velas",
+      "category": "lua-de-mel",
+      "emoji": "🕯️",
+      "title": "Jantar à luz de velas na praia",
+      "description": "Com vista pro mar e sem ninguém perguntando \"e os filhos, quando vêm?\".",
+      "price": 450
+    },
+    {
+      "id": "drinks-guarda-chuvinha",
+      "category": "lua-de-mel",
+      "emoji": "🍹",
+      "title": "Rodada de drinks com guarda-chuvinha",
+      "description": "Hidratação é importante. Principalmente se vier com abacaxi e guarda-chuvinha.",
+      "price": 90,
+      "repeatable": true
+    },
+    {
+      "id": "massagem-casal",
+      "category": "lua-de-mel",
+      "emoji": "💆",
+      "title": "Massagem de casal pós-organização",
+      "description": "Para curar o estresse de 14 planilhas, 3 orçamentos de buffet e 1 mapa de mesas.",
+      "price": 400
+    },
+    {
+      "id": "protetor-fps-100",
+      "category": "lua-de-mel",
+      "emoji": "🧴",
+      "title": "Protetor FPS 100 pro noivo",
+      "description": "Porque ele vira camarão em 15 minutos de sol. Comprovado cientificamente.",
+      "price": 60
+    },
+    {
+      "id": "upgrade-janela",
+      "category": "lua-de-mel",
+      "emoji": "🪟",
+      "title": "Upgrade pro lugar da janela",
+      "description": "Evita a primeira DR do casamento, que seria no avião.",
+      "price": 120
+    },
+    {
+      "id": "frigideira-ovos",
+      "category": "casa",
+      "emoji": "🍳",
+      "title": "Frigideira pra fritar uns ovos",
+      "description": "O café da manhã de casados começa aqui. Quem lava depois? Problema deles.",
+      "price": 30,
+      "tag": "Barato e útil"
+    },
+    {
+      "id": "aspirador-robo",
+      "category": "casa",
+      "emoji": "🤖",
+      "title": "Aspirador robô",
+      "description": "Encerra para sempre a discussão \"hoje é sua vez de varrer\".",
+      "price": 900
+    },
+    {
+      "id": "edredom-gigante",
+      "category": "casa",
+      "emoji": "🛏️",
+      "title": "Edredom king size",
+      "description": "Grande o suficiente para acabar com a guerra do cobertor às 3 da manhã.",
+      "price": 220
+    },
+    {
+      "id": "cafeteira",
+      "category": "casa",
+      "emoji": "☕",
+      "title": "Cafeteira: combustível do casamento",
+      "description": "Nenhuma conversa importante antes do primeiro café. Regra da casa.",
+      "price": 350
+    },
+    {
+      "id": "kit-panelas",
+      "category": "casa",
+      "emoji": "🥘",
+      "title": "Jogo de panelas",
+      "description": "Para ele fingir que sabe cozinhar e ela fingir que acredita.",
+      "price": 280
+    },
+    {
+      "id": "pantalones-spiderman",
+      "category": "noivo",
+      "emoji": "🕷️",
+      "title": "Pantalones de Spider-Man para el novio",
+      "description": "Un gran poder conlleva una gran responsabilidad… como lavar los platos.",
+      "price": 99,
+      "tag": "Hit"
+    },
+    {
+      "id": "clases-de-baile",
+      "category": "noivo",
+      "emoji": "🕺",
+      "title": "Clases de baile para el novio",
+      "description": "Para que la primera danza no parezca un tutorial de cómo NO bailar.",
+      "price": 250
+    },
+    {
+      "id": "control-videojuego",
+      "category": "noivo",
+      "emoji": "🎮",
+      "title": "Segundo controle de videogame",
+      "description": "Agora o player 2 é oficial. Com aliança e tudo.",
+      "price": 380
+    },
+    {
+      "id": "sapato-confortavel",
+      "category": "noiva",
+      "emoji": "🩴",
+      "title": "Chinelo pós-festa da noiva",
+      "description": "Salto alto até a valsa. Depois disso, liberdade total.",
+      "price": 80
+    },
+    {
+      "id": "dia-de-spa",
+      "category": "noiva",
+      "emoji": "🧖‍♀️",
+      "title": "Dia de spa para a noiva",
+      "description": "Para ela se recuperar da organização do casamento. E do noivo.",
+      "price": 300
+    },
+    {
+      "id": "taxa-celular",
+      "category": "zoeira",
+      "emoji": "📱",
+      "title": "Taxa pro noivo olhar o celular no dia",
+      "description": "Cada espiada no placar do jogo durante a cerimônia custa caro.",
+      "price": 50
+    },
+    {
+      "id": "seguro-bebe",
+      "category": "zoeira",
+      "emoji": "👶",
+      "title": "Seguro contra o \"e o bebê, quando vem?\"",
+      "description": "Cobre até 30 perguntas inconvenientes da família por almoço de domingo.",
+      "price": 70
+    },
+    {
+      "id": "musica-dj",
+      "category": "zoeira",
+      "emoji": "🎧",
+      "title": "Direito de pedir uma música pro DJ",
+      "description": "Sujeito à aprovação da noiva. Sertanejo sofrência: só depois da 1h.",
+      "price": 120,
+      "repeatable": true
+    },
+    {
+      "id": "pizza-madrugada",
+      "category": "zoeira",
+      "emoji": "🍕",
+      "title": "Pizza da madrugada pós-festa",
+      "description": "Porque ninguém come direito no próprio casamento. É fato.",
+      "price": 85
+    },
+    {
+      "id": "boleto-buffet",
+      "category": "zoeira",
+      "emoji": "🧾",
+      "title": "Ajuda pra pagar o boleto do buffet",
+      "description": "Você comeu bem? Então você sabe o que fazer.",
+      "price": 500,
+      "repeatable": true
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Obrigado! 💛</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/config.js"></script>
+  <style>
+    .thanks { min-height: 100vh; display: grid; place-items: center; padding: 32px 16px; }
+    .thanks__card { max-width: 560px; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: 28px; padding: clamp(32px, 7vw, 64px); }
+    .thanks__emoji { font-size: 3.4rem; margin-bottom: 12px; }
+    .thanks h1 { font-size: clamp(2.4rem, 7vw, 3.6rem); margin-bottom: 14px; }
+    .thanks h1 em { color: var(--terracotta); }
+    .thanks .lead { margin: 0 auto 28px; }
+    .thanks__actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  </style>
+</head>
+<body>
+  <main class="thanks">
+    <div class="thanks__card">
+      <div class="thanks__emoji">💛</div>
+      <h1>Muito <em>obrigado!</em></h1>
+      <p class="lead" data-text>Seu presente chegou com todo o carinho. Agora é com a gente: prometemos usar com sabedoria (ou quase).</p>
+      <div class="thanks__actions">
+        <a class="btn btn--primary" data-whatsapp target="_blank" rel="noopener" hidden>Avisar os noivos no WhatsApp</a>
+        <a class="btn btn--ghost" href="/">Voltar ao convite</a>
+      </div>
+    </div>
+  </main>
+  <script>
+    (() => {
+      const cfg = window.WEDDING;
+      const params = new URLSearchParams(location.search);
+      const method = params.get('metodo');
+      let guest = {};
+      try { guest = JSON.parse(sessionStorage.getItem('wedding-guest')) || {}; } catch {}
+      try { localStorage.removeItem('wedding-cart'); localStorage.removeItem('wedding-custom'); } catch {}
+
+      const first = guest.name ? guest.name.split(' ')[0] : '';
+      if (first) document.querySelector('h1').innerHTML = `Obrigado, <em></em>!`, document.querySelector('h1 em').textContent = first;
+      if (method === 'pix') {
+        document.querySelector('[data-text]').textContent =
+          'Assim que o Pix cair, a gente comemora com uma dancinha. Se quiser, mande um aviso pra gente saber que foi você!';
+      }
+      if (cfg.whatsapp) {
+        const msg = [
+          `🎁 Acabei de enviar um presente de casamento${method === 'pix' ? ' via Pix' : ' pelo site'}!`,
+          guest.name ? `— ${guest.name}` : null,
+          guest.message ? `\n"${guest.message}"` : null,
+        ].filter(Boolean).join('\n');
+        const a = document.querySelector('[data-whatsapp]');
+        a.href = `https://wa.me/${cfg.whatsapp}?text=${encodeURIComponent(msg)}`;
+        a.hidden = false;
+      }
+    })();
+  </script>
+</body>
+</html>

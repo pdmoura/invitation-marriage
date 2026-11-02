@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ana &amp; Pedro · Vamos casar!</title>
+  <meta name="description" content="Convite de casamento, informações do grande dia, confirmação de presença e lista de presentes.">
+  <meta name="theme-color" content="#f6f1e8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/config.js"></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="nav" id="top">
+    <a class="nav__brand" href="#top" data-bind="monogram">A&amp;P</a>
+    <nav class="nav__links" aria-label="Seções">
+      <a href="#historia">Nossa história</a>
+      <a href="#o-dia">O grande dia</a>
+      <a href="#presentes">Presentes</a>
+      <a href="#rsvp">Confirmar presença</a>
+    </nav>
+    <button class="cart-btn" type="button" data-open-cart aria-label="Abrir sacola de presentes">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+      <span class="cart-btn__count" data-cart-count hidden>0</span>
+    </button>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__text reveal">
+        <p class="eyebrow">Save the date</p>
+        <h1 class="hero__names">
+          <span data-bind="first">Ana</span>
+          <span class="amp">&amp;</span>
+          <span data-bind="second">Pedro</span>
+        </h1>
+        <p class="hero__date" data-bind="dateLabel">Sábado, 15 de maio de 2027</p>
+        <p class="hero__city" data-bind="city">São Paulo · SP</p>
+        <div class="countdown" aria-label="Contagem regressiva">
+          <div><strong data-cd="days">000</strong><span>dias</span></div>
+          <div><strong data-cd="hours">00</strong><span>horas</span></div>
+          <div><strong data-cd="minutes">00</strong><span>min</span></div>
+          <div><strong data-cd="seconds">00</strong><span>seg</span></div>
+        </div>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="#rsvp">Confirmar presença</a>
+          <a class="btn btn--ghost" href="#presentes">Lista de presentes</a>
+        </div>
+      </div>
+      <figure class="hero__photo reveal" aria-label="Foto do casal">
+        <!-- Swap for a real photo: add public/img/casal.jpg and uncomment the img below. -->
+        <!-- <img src="/img/casal.jpg" alt="Ana e Pedro"> -->
+        <div class="arch">
+          <svg class="arch__botanical" viewBox="0 0 200 260" aria-hidden="true">
+            <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+              <path d="M100 250 C 98 190, 104 140, 100 70"/>
+              <path d="M100 200 C 80 190, 64 176, 58 156 C 78 160, 92 176, 100 200Z"/>
+              <path d="M100 170 C 122 162, 138 146, 142 126 C 122 132, 106 148, 100 170Z"/>
+              <path d="M100 138 C 82 128, 72 112, 70 94 C 88 100, 98 116, 100 138Z"/>
+              <path d="M100 108 C 116 100, 126 86, 128 70 C 112 76, 102 90, 100 108Z"/>
+              <path d="M100 70 C 94 58, 94 46, 100 34 C 106 46, 106 58, 100 70Z"/>
+            </g>
+          </svg>
+          <span class="arch__monogram" data-bind="monogram">A&amp;P</span>
+          <span class="arch__date">15 · 05 · 27</span>
+        </div>
+      </figure>
+    </section>
+
+    <!-- STORY -->
+    <section class="section story" id="historia">
+      <div class="section__head reveal">
+        <p class="eyebrow">Nossa história</p>
+        <h2>De um "oi" despretensioso<br><em>a um sim para a vida toda</em></h2>
+      </div>
+      <ol class="timeline">
+        <li class="reveal"><span class="timeline__year">2019</span><h3>O primeiro encontro</h3><p>Um amigo em comum, um bar lotado e uma conversa que durou até fecharem as portas.</p></li>
+        <li class="reveal"><span class="timeline__year">2021</span><h3>A primeira viagem</h3><p>Descobrimos que viajamos bem juntos — exceto na hora de decidir quem fica com a janela.</p></li>
+        <li class="reveal"><span class="timeline__year">2024</span><h3>Casinha própria</h3><p>Uma planta que sobreviveu, uma que não, e muitos jantares improvisados.</p></li>
+        <li class="reveal"><span class="timeline__year">2026</span><h3>O pedido</h3><p>Teve joelho no chão, voz tremendo e um "sim" antes mesmo da pergunta terminar.</p></li>
+      </ol>
+    </section>
+
+    <!-- THE DAY -->
+    <section class="section day" id="o-dia">
+      <div class="section__head reveal">
+        <p class="eyebrow">O grande dia</p>
+        <h2>Onde e quando</h2>
+      </div>
+      <div class="day__grid">
+        <article class="info-card reveal">
+          <p class="info-card__label">Cerimônia</p>
+          <p class="info-card__time" data-bind="ceremony.time">16h00</p>
+          <h3 data-bind="ceremony.place">Capela</h3>
+          <p data-bind="ceremony.address">Endereço</p>
+          <a class="link" data-href="ceremony.mapsUrl" target="_blank" rel="noopener">Ver no mapa →</a>
+        </article>
+        <article class="info-card reveal">
+          <p class="info-card__label">Recepção</p>
+          <p class="info-card__time" data-bind="party.time">18h00</p>
+          <h3 data-bind="party.place">Salão</h3>
+          <p data-bind="party.address">Endereço</p>
+          <a class="link" data-href="party.mapsUrl" target="_blank" rel="noopener">Ver no mapa →</a>
+        </article>
+        <article class="info-card reveal">
+          <p class="info-card__label">Traje</p>
+          <p class="info-card__time">Dress code</p>
+          <h3>Esporte fino</h3>
+          <p data-bind="dressCode">…</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- GIFT SHOP -->
+    <section class="section gifts" id="presentes">
+      <div class="section__head reveal">
+        <p class="eyebrow">Lista de presentes</p>
+        <h2>Presentes <em>(quase)</em> sérios</h2>
+        <p class="lead">Nossa casa já tem quase tudo — menos dinheiro 😅. Escolha um presente abaixo e ele vira uma contribuição para a nossa nova fase. Pague com <strong>Pix</strong> ou <strong>cartão de crédito</strong>.</p>
+      </div>
+
+      <div class="shop-toolbar">
+        <div class="chips" role="tablist" aria-label="Categorias" data-filters></div>
+        <label class="sort">
+          <span>Ordenar</span>
+          <select data-sort>
+            <option value="featured">Destaques</option>
+            <option value="asc">Menor preço</option>
+            <option value="desc">Maior preço</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="gift-grid" data-gift-grid aria-live="polite"></div>
+
+      <aside class="custom-gift reveal">
+        <div>
+          <h3>Prefere escolher o valor?</h3>
+          <p>Sem piada, sem item: só carinho em forma de Pix ou cartão.</p>
+        </div>
+        <form class="custom-gift__form" data-custom-form>
+          <label class="money-input">
+            <span>R$</span>
+            <input type="number" inputmode="decimal" min="10" step="1" placeholder="150" required aria-label="Valor do presente em reais">
+          </label>
+          <button class="btn btn--primary" type="submit">Adicionar</button>
+        </form>
+      </aside>
+    </section>
+
+    <!-- RSVP -->
+    <section class="section rsvp" id="rsvp">
+      <div class="rsvp__card reveal">
+        <p class="eyebrow">RSVP</p>
+        <h2>Você vem, né?</h2>
+        <p class="lead">Confirme até <strong data-bind="rsvpDeadline">15 de abril</strong>. A confirmação abre direto no WhatsApp dos noivos.</p>
+        <form class="rsvp__form" data-rsvp-form>
+          <label>Seu nome<input name="name" required autocomplete="name" placeholder="Nome e sobrenome"></label>
+          <label>Quantas pessoas (contando você)?<input name="guests" type="number" min="1" max="10" value="1" required></label>
+          <fieldset class="radio-row">
+            <legend>Vai comparecer?</legend>
+            <label><input type="radio" name="attending" value="sim" checked> Sim, não perco!</label>
+            <label><input type="radio" name="attending" value="nao"> Infelizmente não</label>
+          </fieldset>
+          <label>Restrição alimentar ou recado<textarea name="notes" rows="3" placeholder="Opcional"></textarea></label>
+          <button class="btn btn--primary btn--block" type="submit">Enviar confirmação</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__names" data-bind="monogram">A&amp;P</p>
+    <p>Feito com amor (e muita planilha) · <span data-bind="dateLabel"></span></p>
+  </footer>
+
+  <!-- CART DRAWER -->
+  <div class="overlay" data-overlay hidden></div>
+  <aside class="drawer" data-drawer aria-label="Sacola de presentes" aria-hidden="true">
+    <div class="drawer__head">
+      <h2>Sua sacola</h2>
+      <button class="icon-btn" type="button" data-close aria-label="Fechar">✕</button>
+    </div>
+
+    <!-- step 1: cart -->
+    <div class="drawer__body" data-step="cart">
+      <ul class="cart-list" data-cart-list></ul>
+      <p class="cart-empty" data-cart-empty>Sua sacola está vazia. Que tal uma frigideira? 🍳</p>
+    </div>
+
+    <!-- step 2: details + payment method -->
+    <form class="drawer__body" data-step="details" hidden data-details-form>
+      <label>Seu nome<input name="name" required autocomplete="name" placeholder="Para sabermos quem agradecer"></label>
+      <label>Recadinho para os noivos<textarea name="message" rows="3" maxlength="450" placeholder="Opcional (mas a gente ama ler)"></textarea></label>
+      <fieldset class="pay-methods">
+        <legend>Forma de pagamento</legend>
+        <label class="pay-method" data-method-pix>
+          <input type="radio" name="method" value="pix" checked>
+          <span class="pay-method__icon">◈</span>
+          <span><strong>Pix</strong><small>Na hora, sem taxas</small></span>
+        </label>
+        <label class="pay-method" data-method-card>
+          <input type="radio" name="method" value="card">
+          <span class="pay-method__icon">▭</span>
+          <span><strong>Cartão de crédito</strong><small>Pagamento seguro via Stripe</small></span>
+        </label>
+      </fieldset>
+      <p class="form-error" data-error role="alert"></p>
+    </form>
+
+    <!-- step 3: pix -->
+    <div class="drawer__body pix" data-step="pix" hidden>
+      <p class="pix__total">Total: <strong data-pix-total></strong></p>
+      <div class="pix__qr" data-pix-qr></div>
+      <p class="pix__hint">Abra o app do seu banco, escolha <strong>Pix → Ler QR code</strong> ou copie o código abaixo.</p>
+      <div class="pix__copy">
+        <input readonly data-pix-payload aria-label="Código Pix copia e cola">
+        <button class="btn btn--small" type="button" data-copy-pix>Copiar</button>
+      </div>
+      <p class="pix__receiver" data-pix-receiver></p>
+    </div>
+
+    <div class="drawer__foot">
+      <div class="drawer__total"><span>Total</span><strong data-cart-total>R$ 0</strong></div>
+      <button class="btn btn--primary btn--block" type="button" data-next>Presentear</button>
+      <button class="btn btn--link" type="button" data-back hidden>← Voltar</button>
+    </div>
+  </aside>
+
+  <div class="toast" data-toast role="status" aria-live="polite"></div>
+</body>
+</html>
