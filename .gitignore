@@ -4,3 +4,5 @@ node_modules/
 *.log
 data/*.db
 data/*.db-*
+.claude/skills/impeccable/scripts/bin/
+.taste-skill/inspect/

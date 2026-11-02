@@ -7,36 +7,39 @@
   <meta name="robots" content="noindex">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
   <script src="/config.js"></script>
   <script src="/i18n.js"></script>
   <style>
-    .thanks { min-height: 100svh; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
-    .thanks__photo { border-radius: var(--radius-lg); aspect-ratio: auto; animation: rise 1.2s var(--ease) both; }
-    .thanks__card { display: flex; flex-direction: column; justify-content: center; padding: clamp(28px, 6vw, 96px); }
-    .thanks h1 { font-size: clamp(3.2rem, 8vw, 7rem); line-height: .95; margin-bottom: 22px; animation: rise 1s .1s var(--ease) both; }
-    .thanks h1 i { color: var(--clay); }
-    .thanks .lead { margin-bottom: 32px; animation: rise 1s .2s var(--ease) both; }
+    .thanks { min-height: 100svh; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
+    .thanks__photo { margin: 0; overflow: hidden; animation: rise 1.1s var(--ease) both; }
+    .thanks__photo img { width: 100%; height: 100%; object-fit: cover; }
+    .thanks__card { background: var(--paper); display: flex; flex-direction: column; }
+    .thanks__body { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: clamp(28px, 6vw, 88px); gap: 22px; }
+    .thanks h1 { font: 400 clamp(3.5rem, 2rem + 6vw, 7.5rem)/.88 var(--display); text-transform: uppercase; letter-spacing: -.02em; animation: rise 1s .1s var(--ease) both; }
+    .thanks__text { font-size: var(--step-lead); max-width: 30ch; animation: rise 1s .2s var(--ease) both; }
     .thanks__actions { display: grid; gap: 10px; max-width: 420px; animation: rise 1s .3s var(--ease) both; }
     @media (max-width: 860px) {
       .thanks { grid-template-columns: 1fr; align-content: start; }
-      .thanks__photo { aspect-ratio: 4 / 3; border-radius: 26px; }
-      .thanks__card { padding: 28px 14px 40px; }
+      .thanks__photo { aspect-ratio: 4 / 3; }
+      .thanks__body { padding: 28px 20px 36px; }
       .thanks__actions { max-width: none; }
     }
   </style>
 </head>
 <body>
   <main class="thanks">
-    <figure class="photo thanks__photo"><img src="/img/site/thanks.jpg" alt=""></figure>
+    <figure class="thanks__photo"><img src="/img/site/thanks.jpg" alt=""></figure>
     <div class="thanks__card">
-      <p class="label" data-t="thanks.label"></p>
-      <h1 data-title></h1>
-      <p class="lead" data-text></p>
-      <div class="thanks__actions">
-        <a class="btn btn--primary btn--lg" data-whatsapp target="_blank" rel="noopener" hidden data-t="thanks.whatsapp"></a>
-        <a class="btn btn--ghost btn--lg" href="/" data-back data-t="thanks.back"></a>
+      <div class="ribbon" aria-hidden="true"></div>
+      <div class="thanks__body">
+        <h1 data-title></h1>
+        <p class="thanks__text" data-text></p>
+        <div class="thanks__actions">
+          <a class="btn btn--accent btn--lg" data-whatsapp target="_blank" rel="noopener" hidden data-t="thanks.whatsapp"></a>
+          <a class="btn btn--ghost btn--lg" href="/" data-back data-t="thanks.back"></a>
+        </div>
       </div>
     </div>
   </main>
@@ -63,8 +66,7 @@
       document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t(el.dataset.t); });
       const title = document.querySelector('[data-title]');
       const first = (guest.name || '').trim().split(/\s+/)[0];
-      if (first) { title.innerHTML = t('thanks.titleName', { name: '<span></span>' }); title.querySelector('span').textContent = first; }
-      else title.innerHTML = t('thanks.title');
+      title.textContent = first ? t('thanks.titleName', { name: first }) : t('thanks.title');
       document.querySelector('[data-text]').textContent = method === 'pix' ? t('thanks.pixText') : t('thanks.text');
 
       if (cfg.whatsapp) {
