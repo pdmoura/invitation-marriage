@@ -1,12 +1,30 @@
 {
   "currency": "BRL",
-  "customAmount": { "min": 10, "max": 50000 },
+  "customAmount": {
+    "min": 10,
+    "max": 50000
+  },
   "categories": [
-    { "id": "lua-de-mel", "label": "Lua de mel" },
-    { "id": "casa", "label": "Casinha nova" },
-    { "id": "noivo", "label": "Para el novio" },
-    { "id": "noiva", "label": "Para a noiva" },
-    { "id": "zoeira", "label": "Zoeira" }
+    {
+      "id": "lua-de-mel",
+      "label": "Lua de mel"
+    },
+    {
+      "id": "casa",
+      "label": "Casinha nova"
+    },
+    {
+      "id": "noivo",
+      "label": "Para el novio"
+    },
+    {
+      "id": "noiva",
+      "label": "Para a noiva"
+    },
+    {
+      "id": "zoeira",
+      "label": "Zoeira"
+    }
   ],
   "items": [
     {
@@ -17,7 +35,8 @@
       "description": "Para o casal sumir por uns dias e voltar bronzeado, descansado e sem responder grupo de WhatsApp.",
       "price": 2000,
       "tag": "Mais pedido",
-      "repeatable": true
+      "repeatable": true,
+      "unsplash": "Q1TYCcqq0FY"
     },
     {
       "id": "jantar-luz-de-velas",
@@ -25,7 +44,8 @@
       "emoji": "🕯️",
       "title": "Jantar à luz de velas na praia",
       "description": "Com vista pro mar e sem ninguém perguntando \"e os filhos, quando vêm?\".",
-      "price": 450
+      "price": 450,
+      "unsplash": "PyL-lApI1F8"
     },
     {
       "id": "drinks-guarda-chuvinha",
@@ -34,7 +54,8 @@
       "title": "Rodada de drinks com guarda-chuvinha",
       "description": "Hidratação é importante. Principalmente se vier com abacaxi e guarda-chuvinha.",
       "price": 90,
-      "repeatable": true
+      "repeatable": true,
+      "unsplash": "dsM93c1RJa8"
     },
     {
       "id": "massagem-casal",
@@ -42,7 +63,8 @@
       "emoji": "💆",
       "title": "Massagem de casal pós-organização",
       "description": "Para curar o estresse de 14 planilhas, 3 orçamentos de buffet e 1 mapa de mesas.",
-      "price": 400
+      "price": 400,
+      "unsplash": "CLiwQXx7kT8"
     },
     {
       "id": "protetor-fps-100",
@@ -50,7 +72,8 @@
       "emoji": "🧴",
       "title": "Protetor FPS 100 pro noivo",
       "description": "Porque ele vira camarão em 15 minutos de sol. Comprovado cientificamente.",
-      "price": 60
+      "price": 60,
+      "unsplash": "UvxGbB04PKk"
     },
     {
       "id": "upgrade-janela",
@@ -58,7 +81,8 @@
       "emoji": "🪟",
       "title": "Upgrade pro lugar da janela",
       "description": "Evita a primeira DR do casamento, que seria no avião.",
-      "price": 120
+      "price": 120,
+      "unsplash": "gdxOGN_fTjE"
     },
     {
       "id": "frigideira-ovos",
@@ -67,7 +91,8 @@
       "title": "Frigideira pra fritar uns ovos",
       "description": "O café da manhã de casados começa aqui. Quem lava depois? Problema deles.",
       "price": 30,
-      "tag": "Barato e útil"
+      "tag": "Barato e útil",
+      "unsplash": "HgsqAYgDt9U"
     },
     {
       "id": "aspirador-robo",
@@ -75,7 +100,8 @@
       "emoji": "🤖",
       "title": "Aspirador robô",
       "description": "Encerra para sempre a discussão \"hoje é sua vez de varrer\".",
-      "price": 900
+      "price": 900,
+      "unsplash": "54gQ8y6Ey7Y"
     },
     {
       "id": "edredom-gigante",
@@ -83,7 +109,8 @@
       "emoji": "🛏️",
       "title": "Edredom king size",
       "description": "Grande o suficiente para acabar com a guerra do cobertor às 3 da manhã.",
-      "price": 220
+      "price": 220,
+      "unsplash": "9IFbmglOszs"
     },
     {
       "id": "cafeteira",
@@ -91,7 +118,8 @@
       "emoji": "☕",
       "title": "Cafeteira: combustível do casamento",
       "description": "Nenhuma conversa importante antes do primeiro café. Regra da casa.",
-      "price": 350
+      "price": 350,
+      "unsplash": "CYEjlYzdHYo"
     },
     {
       "id": "kit-panelas",
@@ -99,7 +127,8 @@
       "emoji": "🥘",
       "title": "Jogo de panelas",
       "description": "Para ele fingir que sabe cozinhar e ela fingir que acredita.",
-      "price": 280
+      "price": 280,
+      "unsplash": "3dmD-6PN-hM"
     },
     {
       "id": "pantalones-spiderman",
@@ -108,7 +137,8 @@
       "title": "Pantalones de Spider-Man para el novio",
       "description": "Un gran poder conlleva una gran responsabilidad… como lavar los platos.",
       "price": 99,
-      "tag": "Hit"
+      "tag": "Hit",
+      "unsplash": "tBAsD_VnxCY"
     },
     {
       "id": "clases-de-baile",
@@ -116,7 +146,8 @@
       "emoji": "🕺",
       "title": "Clases de baile para el novio",
       "description": "Para que la primera danza no parezca un tutorial de cómo NO bailar.",
-      "price": 250
+      "price": 250,
+      "unsplash": "ZXO5V0qZJGU"
     },
     {
       "id": "control-videojuego",
@@ -124,7 +155,8 @@
       "emoji": "🎮",
       "title": "Segundo controle de videogame",
       "description": "Agora o player 2 é oficial. Com aliança e tudo.",
-      "price": 380
+      "price": 380,
+      "unsplash": "y6U-DTU99bg"
     },
     {
       "id": "sapato-confortavel",
@@ -132,7 +164,8 @@
       "emoji": "🩴",
       "title": "Chinelo pós-festa da noiva",
       "description": "Salto alto até a valsa. Depois disso, liberdade total.",
-      "price": 80
+      "price": 80,
+      "unsplash": "glfcz6er-nA"
     },
     {
       "id": "dia-de-spa",
@@ -140,7 +173,8 @@
       "emoji": "🧖‍♀️",
       "title": "Dia de spa para a noiva",
       "description": "Para ela se recuperar da organização do casamento. E do noivo.",
-      "price": 300
+      "price": 300,
+      "unsplash": "Pe9IXUuC6QU"
     },
     {
       "id": "taxa-celular",
@@ -148,7 +182,8 @@
       "emoji": "📱",
       "title": "Taxa pro noivo olhar o celular no dia",
       "description": "Cada espiada no placar do jogo durante a cerimônia custa caro.",
-      "price": 50
+      "price": 50,
+      "unsplash": "sKGpCOu_voE"
     },
     {
       "id": "seguro-bebe",
@@ -156,7 +191,8 @@
       "emoji": "👶",
       "title": "Seguro contra o \"e o bebê, quando vem?\"",
       "description": "Cobre até 30 perguntas inconvenientes da família por almoço de domingo.",
-      "price": 70
+      "price": 70,
+      "unsplash": "9BMvbnkwVZ0"
     },
     {
       "id": "musica-dj",
@@ -165,7 +201,8 @@
       "title": "Direito de pedir uma música pro DJ",
       "description": "Sujeito à aprovação da noiva. Sertanejo sofrência: só depois da 1h.",
       "price": 120,
-      "repeatable": true
+      "repeatable": true,
+      "unsplash": "X4e8n5ncOEs"
     },
     {
       "id": "pizza-madrugada",
@@ -173,7 +210,8 @@
       "emoji": "🍕",
       "title": "Pizza da madrugada pós-festa",
       "description": "Porque ninguém come direito no próprio casamento. É fato.",
-      "price": 85
+      "price": 85,
+      "unsplash": "UqxJkKP_DjA"
     },
     {
       "id": "boleto-buffet",
@@ -182,7 +220,8 @@
       "title": "Ajuda pra pagar o boleto do buffet",
       "description": "Você comeu bem? Então você sabe o que fazer.",
       "price": 500,
-      "repeatable": true
+      "repeatable": true,
+      "unsplash": "aQWmCH_b3MU"
     }
   ]
 }

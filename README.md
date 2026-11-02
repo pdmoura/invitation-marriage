@@ -1,55 +1,78 @@
-# 💍 Wedding invitation + cash gift registry
+# 💍 Pedro & Sara — 17.07.2027 · Formosa, GO
 
-A wedding website with an e-commerce-style gift list. Guests "buy" funny gifts (honeymoon quota, a frying pan for eggs, Spider-Man pants for the groom…), but no real product is shipped: **the couple just receives the money**, via:
+Wedding website with:
 
-- **Pix** — a Pix QR code and "copia e cola" code with the exact amount, generated on the fly. Money goes straight to your bank account, no fees, no middleman.
-- **Credit card** — via **Stripe Checkout** (hosted, PCI-compliant payment page). Optionally Pix inside Stripe and installments, for Brazilian Stripe accounts.
+- **Personalized invitations**: every guest (or family) gets their own link, `…/c/<code>`, with a greeting, their number of seats, and an RSVP that can't go over that number.
+- **Gift registry that is really a cash fund**: guests "buy" funny gifts (honeymoon quota, a frying pan for eggs, Spider-Man pants for the groom…) with real photos. Nothing is shipped; you just get the money via **Pix** (QR code / copia e cola straight to your bank, no fees) or **credit card** (Stripe Checkout).
+- **Couple's admin panel** at `/admin`: guest list, who opened the link, who confirmed (and how many people), and how much money has come in.
 
-![Hero](docs/screenshots/01-hero-desktop.png)
-![Gift shop](docs/screenshots/03-gift-shop-full.png)
-![Pix checkout](docs/screenshots/06-pix-qr.png)
+| Personalized invite | RSVP | Admin |
+|---|---|---|
+| ![](docs/screenshots/01-convite-personalizado.png) | ![](docs/screenshots/02-rsvp-personalizado.png) | ![](docs/screenshots/07-admin-convidados.png) |
 
-More screenshots in [`docs/screenshots/`](docs/screenshots), design references in [`docs/inspiration.md`](docs/inspiration.md).
+More in [`docs/screenshots/`](docs/screenshots); design references in [`docs/inspiration.md`](docs/inspiration.md).
 
 ## Run locally
 
 ```bash
 npm install
-cp .env.example .env   # fill in your Pix key and, optionally, Stripe key
-npm run dev            # http://localhost:3000
+cp .env.example .env   # set ADMIN_PASSWORD and PIX_KEY at least
+npm run images         # downloads the gift photos into public/img/gifts (needs internet)
+npm run dev            # site: http://localhost:3000 · admin: http://localhost:3000/admin
 ```
 
 ```bash
-npm test               # Pix BR Code tests (validated against the Banco Central example)
+npm test
 ```
+
+Without `DATABASE_URL`, data goes to a local SQLite file (`data/wedding.db`, git-ignored).
+
+## How the couple uses it
+
+1. Open `/admin` and log in with `ADMIN_PASSWORD`.
+2. Add invites one by one, or **Importar lista** to paste many at once: one per line, `Nome; lugares; telefone` (pasting columns from Google Sheets/Excel also works).
+3. For each invite click **Enviar no WhatsApp**: it opens WhatsApp with a ready message and the personal link (or **Copiar link**).
+4. Follow along on the dashboard:
+   - **Presença confirmada**: confirmed people vs. invited seats, with a progress bar.
+   - **Convites**: how many opened their link and how many haven't answered. The filters show *Confirmados / Aguardando / Não vão / Não abriram*.
+   - **Arrecadado**: money received (card + Pix + other), plus how much each invite gave.
+   - **Pix a conferir**: guests who clicked "Já fiz o Pix". Check your bank app, then click **Confirmar recebimento**.
+5. **Presentes** tab: every gift with name, message and items. Use **Registrar presente** for gifts outside the site (envelope at the party, a direct Pix…).
+6. **Exportar CSV** downloads the guest list (for the venue, the buffet, seating…).
+
+You can also edit an invite (seats, phone, notes, or set the answer yourself when someone replies by phone).
 
 ## Personalize
 
 | What | Where |
 |---|---|
-| Names, date, venues, dress code, WhatsApp for RSVPs | `public/config.js` |
-| Gift list (titles, jokes, prices, emoji, categories) | `data/gifts.json` |
-| Story timeline text | `public/index.html` (`#historia`) |
-| Couple photo | add `public/img/casal.jpg` and uncomment the `<img>` in the hero |
+| Names, date, city, venues, dress code, WhatsApp, RSVP deadline | `public/config.js` (venue names/addresses are still placeholders) |
+| Gifts: titles, jokes, prices, photos, categories | `data/gifts.json` (`unsplash` = photo id from the Unsplash URL; run `npm run images -- --force` after changing one) |
+| Story timeline | `public/index.html` (`#historia`) |
+| Couple photo in the hero | add `public/img/casal.jpg` and uncomment the `<img>` |
 | Colors and fonts | CSS variables at the top of `public/styles.css` |
 
-Gift fields: `price` is in reais; `repeatable: true` lets a guest buy several (e.g. honeymoon quotas); `tag` shows a small badge.
+Gift photos are free [Unsplash](https://unsplash.com/license) images. `npm run images` saves local copies so the site doesn't depend on Unsplash; if a photo is missing the card falls back to the Unsplash URL, then to the emoji.
 
-## How payments work
+## Payments
 
-- **Prices are computed on the server** from `data/gifts.json`, so a guest can't edit the amount in the browser.
-- **Pix** (`POST /api/pix`): builds a static BR Code (EMV) with the total and a reference like `PRESENTE1A2B3C4D`, rendered as an SVG QR code. Static Pix has no automatic confirmation, so after paying the guest is invited to send a WhatsApp note; you see the money in your bank app.
-- **Card** (`POST /api/checkout`): creates a Stripe Checkout Session in BRL, with the guest's name and message in the payment metadata (visible in the Stripe Dashboard). After payment the guest lands on `/obrigado`.
-- **RSVP** opens WhatsApp with a pre-filled message to the number in `config.js` — no database needed.
+- **Prices are computed on the server** from `data/gifts.json`, so nobody can change an amount in the browser.
+- **Pix**: static BR Code with the exact total and a `PRESENTE…` reference. Static Pix has no automatic confirmation, so the admin panel lists it as *Conferir no banco* until you confirm it.
+- **Card**: Stripe Checkout in BRL. Gifts are recorded as received automatically: by the webhook (`/api/stripe/webhook`) and also when the guest reaches the thank-you page.
+- Every gift made from a personalized link is attached to that invite.
 
 ### Stripe setup
 
 1. Create an account at [stripe.com](https://stripe.com) (a Brazilian account settles in BRL to a Brazilian bank).
-2. Developers → API keys → copy the **secret key** into `STRIPE_SECRET_KEY` (`sk_test_…` to test with card `4242 4242 4242 4242`).
-3. Optional: `STRIPE_ENABLE_PIX=true` (Pix inside Stripe is invite-only for Brazilian accounts) and `STRIPE_CARD_INSTALLMENTS=true` for parcelamento.
+2. Developers → API keys → put the **secret key** in `STRIPE_SECRET_KEY` (`sk_test_…` to test with card `4242 4242 4242 4242`).
+3. Developers → Webhooks → add endpoint `https://<your-site>/api/stripe/webhook` with events `checkout.session.completed` and `checkout.session.async_payment_succeeded`, and put its signing secret in `STRIPE_WEBHOOK_SECRET`.
+4. Optional: `STRIPE_ENABLE_PIX=true` (Pix inside Stripe; invite-only for Brazilian accounts) and `STRIPE_CARD_INSTALLMENTS=true` (parcelamento).
 
-Card fees are charged by Stripe on each payment; Pix via the built-in QR code is free.
+## Deploy (Render + Supabase, both free tiers)
 
-## Deploy
+Render's free web services don't keep files between deploys, so production data must live in Postgres:
 
-Any Node 20+ host works (Render, Railway, Fly.io…). On Render: New → Web Service → this repo, build `npm install`, start `npm start`, and set the env vars from `.env.example` (plus `PUBLIC_URL`).
+1. **Supabase**: create a project → Project Settings → Database → copy the *Session pooler* connection string → that's `DATABASE_URL`. Tables are created automatically on first start.
+2. **Render**: New → Blueprint → this repo (uses `render.yaml`), then fill `PUBLIC_URL`, `ADMIN_PASSWORD`, `DATABASE_URL`, `PIX_KEY` and the Stripe keys.
+
+The build runs `npm run images`, so the gift photos are downloaded during deploy. Requires Node 22.13+.

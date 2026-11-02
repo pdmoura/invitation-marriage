@@ -28,7 +28,7 @@
       <p class="lead" data-text>Seu presente chegou com todo o carinho. Agora é com a gente: prometemos usar com sabedoria (ou quase).</p>
       <div class="thanks__actions">
         <a class="btn btn--primary" data-whatsapp target="_blank" rel="noopener" hidden>Avisar os noivos no WhatsApp</a>
-        <a class="btn btn--ghost" href="/">Voltar ao convite</a>
+        <a class="btn btn--ghost" href="/" data-back>Voltar ao convite</a>
       </div>
     </div>
   </main>
@@ -40,6 +40,15 @@
       let guest = {};
       try { guest = JSON.parse(sessionStorage.getItem('wedding-guest')) || {}; } catch {}
       try { localStorage.removeItem('wedding-cart'); localStorage.removeItem('wedding-custom'); } catch {}
+      try {
+        const token = JSON.parse(localStorage.getItem('wedding-invite'));
+        if (token) document.querySelector('[data-back]').href = `/c/${token}`;
+      } catch {}
+      // Card payments: confirm with Stripe so the gift shows up in the admin panel even without a webhook.
+      const sessionId = params.get('session_id');
+      if (method === 'cartao' && sessionId) {
+        fetch(`/api/checkout/confirm?session_id=${encodeURIComponent(sessionId)}`).catch(() => {});
+      }
 
       const first = guest.name ? guest.name.split(' ')[0] : '';
       if (first) document.querySelector('h1').innerHTML = `Obrigado, <em></em>!`, document.querySelector('h1 em').textContent = first;

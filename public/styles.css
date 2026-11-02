@@ -116,7 +116,7 @@ p { margin: 0; }
   min-width: 72px; padding: 12px 10px; text-align: center;
   background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
 }
-.countdown strong { display: block; font: 500 1.9rem/1 var(--serif); font-variant-numeric: tabular-nums; }
+.countdown strong { display: block; font: 500 1.9rem/1 var(--serif); font-variant-numeric: lining-nums tabular-nums; }
 .countdown span { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 
 .hero__photo { margin: 0; justify-self: center; width: min(100%, 420px); }
@@ -157,7 +157,7 @@ p { margin: 0; }
 .day__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .info-card { background: var(--surface); border-radius: var(--radius); padding: 32px; border: 1px solid var(--line); }
 .info-card__label { font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--olive); font-weight: 600; }
-.info-card__time { font: italic 500 2.4rem var(--serif); color: var(--terracotta); margin: 6px 0 10px; }
+.info-card__time { font: italic 500 2.4rem var(--serif); font-variant-numeric: lining-nums; color: var(--terracotta); margin: 6px 0 10px; }
 .info-card h3 { font-size: 1.5rem; margin-bottom: 6px; }
 .info-card p:not(.info-card__label):not(.info-card__time) { color: var(--muted); margin-bottom: 14px; }
 
@@ -335,3 +335,35 @@ legend { font-size: .88rem; font-weight: 500; margin-bottom: 8px; }
   .chips { min-width: 0; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter); }
   .chip { white-space: nowrap; }
 }
+
+/* ---------- gift photos ---------- */
+.gift__media { overflow: hidden; }
+.gift__img, .cart-item__img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity .4s ease, transform .5s ease;
+}
+.gift__img.loaded, .cart-item__img.loaded { opacity: 1; }
+.gift:hover .gift__img { transform: scale(1.05); }
+.gift__tag { z-index: 1; box-shadow: 0 2px 8px rgba(0, 0, 0, .12); }
+.cart-item__emoji { position: relative; overflow: hidden; }
+
+/* ---------- personalized invite ---------- */
+.eyebrow--greeting {
+  text-transform: none; letter-spacing: .02em; font: italic 500 1.5rem var(--serif); color: var(--terracotta);
+}
+.rsvp__status { border-radius: 14px; padding: 12px 16px; margin-top: 20px; font-weight: 500; font-size: .95rem; }
+.rsvp__status--yes { background: color-mix(in srgb, var(--olive) 12%, var(--surface)); color: var(--olive-dark); }
+.rsvp__status--no { background: var(--bg-alt); color: var(--muted); }
+.rsvp__yes { display: grid; gap: 16px; }
+.rsvp__form select {
+  width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+}
+.radio-row--cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.radio-row--cards label {
+  border: 1px solid var(--line); border-radius: 14px; padding: 14px; cursor: pointer; justify-content: center;
+  transition: border-color .2s, background .2s;
+}
+.radio-row--cards label:has(input:checked) { border-color: var(--olive); background: color-mix(in srgb, var(--olive) 8%, var(--surface)); }
+.radio-row--cards input { accent-color: var(--olive); }
+[data-rsvp-nolink] .lead { margin-bottom: 24px; }
+@media (max-width: 560px) { .radio-row--cards { grid-template-columns: 1fr; } }

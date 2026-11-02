@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel dos noivos</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/admin.css">
+  <script src="/config.js"></script>
+  <script src="/admin.js" defer></script>
+</head>
+<body class="admin">
+  <!-- LOGIN -->
+  <main class="login" data-view="login" hidden>
+    <form class="login__card" data-login-form>
+      <p class="eyebrow">Painel dos noivos</p>
+      <h1 data-couple>Pedro &amp; Sara</h1>
+      <label>Senha<input type="password" name="password" required autocomplete="current-password" autofocus></label>
+      <p class="form-error" data-login-error role="alert"></p>
+      <button class="btn btn--primary btn--block" type="submit">Entrar</button>
+    </form>
+  </main>
+
+  <!-- DASHBOARD -->
+  <div data-view="dashboard" hidden>
+    <header class="admin-nav">
+      <div>
+        <p class="eyebrow">Painel dos noivos</p>
+        <h1 data-couple>Pedro &amp; Sara</h1>
+      </div>
+      <div class="admin-nav__actions">
+        <a class="btn btn--ghost btn--sm" href="/" target="_blank" rel="noopener">Ver site ↗</a>
+        <button class="btn btn--link" type="button" data-logout>Sair</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <section class="stats" aria-label="Resumo">
+        <article class="stat stat--wide">
+          <p class="stat__label">Presença confirmada</p>
+          <p class="stat__value"><span data-s="confirmedPeople">0</span> <small>de <span data-s="seats">0</span> convidados</small></p>
+          <div class="bar" aria-hidden="true">
+            <span class="bar__yes" data-bar="yes"></span><span class="bar__no" data-bar="no"></span>
+          </div>
+          <p class="stat__sub"><span class="dot dot--yes"></span><span data-s="confirmedInvites">0</span> convites confirmados ·
+            <span class="dot dot--pending"></span><span data-s="pendingSeats">0</span> lugares aguardando ·
+            <span class="dot dot--no"></span><span data-s="declinedSeats">0</span> lugares recusados</p>
+        </article>
+        <article class="stat">
+          <p class="stat__label">Convites</p>
+          <p class="stat__value" data-s="total">0</p>
+          <p class="stat__sub"><span data-s="opened">0</span> já abriram o link · <span data-s="pendingInvites">0</span> sem resposta</p>
+        </article>
+        <article class="stat stat--money">
+          <p class="stat__label">Arrecadado</p>
+          <p class="stat__value" data-s="received">R$ 0</p>
+          <p class="stat__sub">Cartão <span data-s="card">R$ 0</span> · Pix <span data-s="pix">R$ 0</span> · Outros <span data-s="manual">R$ 0</span></p>
+        </article>
+        <article class="stat">
+          <p class="stat__label">Pix a conferir</p>
+          <p class="stat__value" data-s="pendingPix">R$ 0</p>
+          <p class="stat__sub" data-s="pendingPixText">Nenhum aviso de Pix pendente</p>
+        </article>
+      </section>
+
+      <nav class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-tab="invites">Convidados</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="gifts">Presentes</button>
+      </nav>
+
+      <!-- INVITES -->
+      <section data-panel="invites">
+        <div class="panel-actions">
+          <form class="inline-form" data-add-invite>
+            <input name="name" required placeholder="Nome no convite (ex.: Família Souza)" aria-label="Nome no convite">
+            <input name="seats" type="number" min="1" max="30" value="2" required aria-label="Lugares" title="Lugares">
+            <input name="phone" inputmode="tel" placeholder="WhatsApp (opcional)" aria-label="WhatsApp">
+            <button class="btn btn--primary" type="submit">Adicionar</button>
+          </form>
+          <details class="import">
+            <summary>Importar lista</summary>
+            <form data-import-form>
+              <p class="hint">Um convite por linha: <code>Nome; lugares; telefone</code>. Também dá para colar direto de uma planilha (colunas Nome, Lugares, Telefone).</p>
+              <textarea name="text" rows="6" placeholder="Família Souza; 4; 61 99999-1111&#10;Tio João e Tia Maria; 2; 61 98888-2222&#10;Lucas (padrinho); 1"></textarea>
+              <button class="btn btn--primary" type="submit">Importar</button>
+              <p class="hint" data-import-result></p>
+            </form>
+          </details>
+        </div>
+
+        <div class="toolbar">
+          <input type="search" placeholder="Buscar convidado…" data-invite-search aria-label="Buscar convidado">
+          <div class="chips" data-invite-filters>
+            <button class="chip" type="button" data-filter="all" aria-selected="true">Todos</button>
+            <button class="chip" type="button" data-filter="yes" aria-selected="false">Confirmados</button>
+            <button class="chip" type="button" data-filter="pending" aria-selected="false">Aguardando</button>
+            <button class="chip" type="button" data-filter="no" aria-selected="false">Não vão</button>
+            <button class="chip" type="button" data-filter="unopened" aria-selected="false">Não abriram</button>
+          </div>
+          <a class="btn btn--ghost btn--sm" href="/api/admin/invites.csv">Exportar CSV</a>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr><th>Convite</th><th>Lugares</th><th>Resposta</th><th>Quem vai / observações</th><th>Presentes</th><th class="right">Ações</th></tr>
+            </thead>
+            <tbody data-invite-rows></tbody>
+          </table>
+          <p class="empty" data-invite-empty hidden>Nenhum convite ainda. Adicione o primeiro acima 👆</p>
+        </div>
+      </section>
+
+      <!-- GIFTS -->
+      <section data-panel="gifts" hidden>
+        <div class="panel-actions">
+          <form class="inline-form" data-add-gift>
+            <input name="guest_name" required placeholder="Quem deu (ex.: Vó Lúcia)" aria-label="Quem deu">
+            <input name="amount" type="number" min="1" step="0.01" required placeholder="Valor R$" aria-label="Valor">
+            <input name="message" placeholder="Observação (ex.: envelope na festa)" aria-label="Observação">
+            <button class="btn btn--primary" type="submit">Registrar presente</button>
+          </form>
+          <p class="hint">Use para presentes fora do site: dinheiro no envelope, Pix direto, transferência…</p>
+        </div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr><th>Data</th><th>Quem</th><th>Presente</th><th>Forma</th><th class="right">Valor</th><th>Status</th><th class="right">Ações</th></tr>
+            </thead>
+            <tbody data-gift-rows></tbody>
+          </table>
+          <p class="empty" data-gift-empty hidden>Nenhum presente ainda. Logo logo chega a primeira frigideira 🍳</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- EDIT INVITE -->
+  <dialog class="dialog" data-edit-dialog>
+    <form method="dialog" data-edit-form>
+      <h2>Editar convite</h2>
+      <label>Nome no convite<input name="name" required></label>
+      <div class="grid-2">
+        <label>Lugares<input name="seats" type="number" min="1" max="30" required></label>
+        <label>WhatsApp<input name="phone" inputmode="tel"></label>
+      </div>
+      <label>Observações internas<input name="notes" placeholder="Ex.: padrinhos, mesa 3…"></label>
+      <div class="grid-2">
+        <label>Resposta
+          <select name="status">
+            <option value="pending">Aguardando</option>
+            <option value="yes">Confirmado</option>
+            <option value="no">Não vai</option>
+          </select>
+        </label>
+        <label>Confirmados<input name="confirmed_count" type="number" min="0" max="30"></label>
+      </div>
+      <p class="form-error" data-edit-error role="alert"></p>
+      <div class="dialog__actions">
+        <button class="btn btn--link" value="cancel" formnovalidate>Cancelar</button>
+        <button class="btn btn--primary" value="save">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" data-toast role="status" aria-live="polite"></div>
+</body>
+</html>

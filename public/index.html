@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ana &amp; Pedro · Vamos casar!</title>
+  <title>Pedro &amp; Sara · Vamos casar!</title>
   <meta name="description" content="Convite de casamento, informações do grande dia, confirmação de presença e lista de presentes.">
   <meta name="theme-color" content="#f6f1e8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +15,7 @@
 </head>
 <body>
   <header class="nav" id="top">
-    <a class="nav__brand" href="#top" data-bind="monogram">A&amp;P</a>
+    <a class="nav__brand" href="#top" data-bind="monogram">P&amp;S</a>
     <nav class="nav__links" aria-label="Seções">
       <a href="#historia">Nossa história</a>
       <a href="#o-dia">O grande dia</a>
@@ -32,14 +32,14 @@
     <!-- HERO -->
     <section class="hero">
       <div class="hero__text reveal">
-        <p class="eyebrow">Save the date</p>
+        <p class="eyebrow" data-invite-greeting>Save the date</p>
         <h1 class="hero__names">
-          <span data-bind="first">Ana</span>
+          <span data-bind="first">Pedro</span>
           <span class="amp">&amp;</span>
-          <span data-bind="second">Pedro</span>
+          <span data-bind="second">Sara</span>
         </h1>
-        <p class="hero__date" data-bind="dateLabel">Sábado, 15 de maio de 2027</p>
-        <p class="hero__city" data-bind="city">São Paulo · SP</p>
+        <p class="hero__date" data-bind="dateLabel">Sábado, 17 de julho de 2027</p>
+        <p class="hero__city" data-bind="city">Formosa · GO · Brasil</p>
         <div class="countdown" aria-label="Contagem regressiva">
           <div><strong data-cd="days">000</strong><span>dias</span></div>
           <div><strong data-cd="hours">00</strong><span>horas</span></div>
@@ -53,7 +53,7 @@
       </div>
       <figure class="hero__photo reveal" aria-label="Foto do casal">
         <!-- Swap for a real photo: add public/img/casal.jpg and uncomment the img below. -->
-        <!-- <img src="/img/casal.jpg" alt="Ana e Pedro"> -->
+        <!-- <img src="/img/casal.jpg" alt="Pedro e Sara"> -->
         <div class="arch">
           <svg class="arch__botanical" viewBox="0 0 200 260" aria-hidden="true">
             <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
@@ -65,8 +65,8 @@
               <path d="M100 70 C 94 58, 94 46, 100 34 C 106 46, 106 58, 100 70Z"/>
             </g>
           </svg>
-          <span class="arch__monogram" data-bind="monogram">A&amp;P</span>
-          <span class="arch__date">15 · 05 · 27</span>
+          <span class="arch__monogram" data-bind="monogram">P&amp;S</span>
+          <span class="arch__date" data-bind="shortDate">17 · 07 · 27</span>
         </div>
       </figure>
     </section>
@@ -156,25 +156,42 @@
     <section class="section rsvp" id="rsvp">
       <div class="rsvp__card reveal">
         <p class="eyebrow">RSVP</p>
-        <h2>Você vem, né?</h2>
-        <p class="lead">Confirme até <strong data-bind="rsvpDeadline">15 de abril</strong>. A confirmação abre direto no WhatsApp dos noivos.</p>
-        <form class="rsvp__form" data-rsvp-form>
-          <label>Seu nome<input name="name" required autocomplete="name" placeholder="Nome e sobrenome"></label>
-          <label>Quantas pessoas (contando você)?<input name="guests" type="number" min="1" max="10" value="1" required></label>
-          <fieldset class="radio-row">
-            <legend>Vai comparecer?</legend>
-            <label><input type="radio" name="attending" value="sim" checked> Sim, não perco!</label>
-            <label><input type="radio" name="attending" value="nao"> Infelizmente não</label>
-          </fieldset>
-          <label>Restrição alimentar ou recado<textarea name="notes" rows="3" placeholder="Opcional"></textarea></label>
-          <button class="btn btn--primary btn--block" type="submit">Enviar confirmação</button>
-        </form>
+        <h2 data-rsvp-title>Você vem, né?</h2>
+
+        <!-- Shown when the page is opened without a personalized link -->
+        <div data-rsvp-nolink>
+          <p class="lead">A confirmação de presença é feita pelo <strong>link personalizado</strong> que enviamos para você no WhatsApp. Não encontrou? Fale com a gente!</p>
+          <a class="btn btn--ghost" data-whatsapp-help target="_blank" rel="noopener">Pedir meu link</a>
+        </div>
+
+        <!-- Personalized RSVP (opened through /c/<token>) -->
+        <div data-rsvp-invite hidden>
+          <p class="lead">Este convite é para <strong data-invite-seats></strong>. Confirme até <strong data-bind="rsvpDeadline"></strong>.</p>
+          <p class="rsvp__status" data-rsvp-status hidden></p>
+          <form class="rsvp__form" data-rsvp-form>
+            <fieldset class="radio-row radio-row--cards">
+              <legend>Vocês vão?</legend>
+              <label><input type="radio" name="attending" value="yes" checked> <span>🥂 Sim, não perco!</span></label>
+              <label><input type="radio" name="attending" value="no"> <span>😢 Infelizmente não</span></label>
+            </fieldset>
+            <div class="rsvp__yes" data-rsvp-yes>
+              <label>Quantas pessoas vão (contando você)?
+                <select name="count" data-rsvp-count></select>
+              </label>
+              <label>Nome de quem vai<textarea name="guestNames" rows="2" placeholder="Ex.: João Silva, Maria Silva"></textarea></label>
+              <label>Alguma restrição alimentar?<input name="dietary" placeholder="Opcional"></label>
+            </div>
+            <label>Recado para os noivos<textarea name="message" rows="2" placeholder="Opcional"></textarea></label>
+            <p class="form-error" data-rsvp-error role="alert"></p>
+            <button class="btn btn--primary btn--block" type="submit">Enviar confirmação</button>
+          </form>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p class="footer__names" data-bind="monogram">A&amp;P</p>
+    <p class="footer__names" data-bind="monogram">P&amp;S</p>
     <p>Feito com amor (e muita planilha) · <span data-bind="dateLabel"></span></p>
   </footer>
 

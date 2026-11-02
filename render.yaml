@@ -1,0 +1,31 @@
+# Render Blueprint: New → Blueprint → pick this repo. Fill the secret values in the dashboard.
+services:
+  - type: web
+    name: casamento-pedro-e-sara
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: PUBLIC_URL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: PIX_KEY
+        sync: false
+      - key: PIX_RECEIVER_NAME
+        value: Pedro e Sara
+      - key: PIX_CITY
+        value: Formosa
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false

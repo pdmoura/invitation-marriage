@@ -65,19 +65,103 @@
     toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
   }
 
-  /* ---------------- RSVP via WhatsApp ---------------- */
-  $('[data-rsvp-form]').addEventListener('submit', (e) => {
+  /* ---------------- personalized invite + RSVP ---------------- */
+  // The invite token comes from the personalized link (/c/<token>) and is remembered,
+  // so gifts bought later from the same browser are still linked to the invite.
+  const pathToken = (location.pathname.match(/^\/c\/([a-z0-9]{4,20})\/?$/i) || [])[1];
+  const inviteToken = pathToken || storage.get('wedding-invite', null);
+  if (pathToken) storage.set('wedding-invite', pathToken);
+  let invite = null;
+
+  const helpMsg = `Oi! Não achei meu link de confirmação do casamento de ${cfg.couple.first} & ${cfg.couple.second}.`;
+  $('[data-whatsapp-help]').href = `https://wa.me/${cfg.whatsapp}?text=${encodeURIComponent(helpMsg)}`;
+
+  const rsvpForm = $('[data-rsvp-form]');
+  const peopleLabel = (n) => `${n} ${n === 1 ? 'pessoa' : 'pessoas'}`;
+
+  function renderRsvpStatus() {
+    const el = $('[data-rsvp-status]');
+    if (invite.status === 'pending') { el.hidden = true; return; }
+    el.hidden = false;
+    el.className = `rsvp__status rsvp__status--${invite.status}`;
+    el.textContent = invite.status === 'yes'
+      ? `✓ Presença confirmada para ${peopleLabel(invite.confirmedCount)}. Mudou algo? É só enviar de novo.`
+      : '✓ Recebemos sua resposta. Vamos sentir sua falta! Mudou de ideia? Envie de novo.';
+    $('[data-rsvp-title]').textContent = invite.status === 'yes' ? 'Te esperamos lá! 🥂' : 'Obrigado por avisar 💛';
+  }
+
+  function toggleRsvpYes() {
+    $('[data-rsvp-yes]').hidden = new FormData(rsvpForm).get('attending') !== 'yes';
+  }
+
+  async function loadInvite() {
+    if (!inviteToken) return;
+    const res = await fetch(`/api/invite/${encodeURIComponent(inviteToken)}`).catch(() => null);
+    if (!res?.ok) {
+      if (res?.status === 404 && !pathToken) storage.set('wedding-invite', null);
+      return;
+    }
+    invite = await res.json();
+
+    const greeting = $('[data-invite-greeting]');
+    greeting.textContent = `Olá, ${invite.name}!`;
+    greeting.classList.add('eyebrow--greeting');
+    $('[data-rsvp-nolink]').hidden = true;
+    $('[data-rsvp-invite]').hidden = false;
+    $('[data-invite-seats]').textContent = peopleLabel(invite.seats);
+
+    const select = $('[data-rsvp-count]');
+    select.innerHTML = '';
+    for (let n = 1; n <= invite.seats; n++) select.add(new Option(peopleLabel(n), n));
+    select.value = String(invite.confirmedCount || invite.seats);
+
+    if (invite.status !== 'pending') {
+      rsvpForm.attending.value = invite.status;
+      rsvpForm.guestNames.value = invite.guestNames || '';
+      rsvpForm.dietary.value = invite.dietary || '';
+      rsvpForm.message.value = invite.message || '';
+    }
+    const nameInput = $('[data-details-form] input[name=name]');
+    if (!nameInput.value) nameInput.value = invite.name;
+    toggleRsvpYes();
+    renderRsvpStatus();
+  }
+
+  rsvpForm.addEventListener('change', toggleRsvpYes);
+  rsvpForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const f = new FormData(e.currentTarget);
-    const coming = f.get('attending') === 'sim';
-    const lines = [
-      coming ? '💌 Confirmo presença no casamento!' : '😢 Infelizmente não poderei ir ao casamento.',
-      `Nome: ${f.get('name')}`,
-      coming ? `Pessoas: ${f.get('guests')}` : null,
-      f.get('notes') ? `Obs.: ${f.get('notes')}` : null,
-    ].filter(Boolean);
-    window.open(`https://wa.me/${cfg.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+    const btn = $('button[type=submit]', rsvpForm);
+    const errorEl = $('[data-rsvp-error]');
+    const f = new FormData(rsvpForm);
+    btn.disabled = true;
+    errorEl.textContent = '';
+    try {
+      const res = await fetch(`/api/invite/${encodeURIComponent(inviteToken)}/rsvp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          attending: f.get('attending'),
+          count: f.get('count'),
+          guestNames: f.get('guestNames'),
+          dietary: f.get('dietary'),
+          message: f.get('message'),
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Não foi possível enviar.');
+      invite.status = data.status;
+      invite.confirmedCount = data.confirmedCount;
+      renderRsvpStatus();
+      $('[data-rsvp-status]').scrollIntoView({ block: 'center', behavior: 'smooth' });
+      toast(data.status === 'yes' ? '🥂 Presença confirmada!' : '💛 Resposta enviada. Obrigado!');
+    } catch (err) {
+      errorEl.textContent = err.message;
+    } finally {
+      btn.disabled = false;
+    }
   });
+
+  loadInvite();
 
   /* ---------------- gift shop ---------------- */
   const state = {
@@ -125,6 +209,19 @@
     }
   }
 
+  // Real photo with graceful fallback: if it fails to load, the emoji tile underneath stays visible.
+  function photo(item, className) {
+    const img = new Image();
+    img.className = className;
+    img.alt = item.title;
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.addEventListener('load', () => img.classList.add('loaded'));
+    img.addEventListener('error', () => img.remove());
+    img.src = item.image;
+    return img;
+  }
+
   function renderGrid() {
     let items = state.catalog.items.filter((i) => state.filter === 'all' || i.category === state.filter);
     if (state.sort === 'asc') items = [...items].sort((a, b) => a.price - b.price);
@@ -151,6 +248,7 @@
         </div>`;
       if (item.tag) $('.gift__tag', card).textContent = item.tag;
       $('.gift__emoji', card).textContent = item.emoji;
+      if (item.image) $('.gift__media', card).append(photo(item, 'gift__img'));
       $('.gift__title', card).textContent = item.title;
       $('.gift__desc', card).textContent = item.description;
       $('.gift__price', card).textContent = brl(item.price);
@@ -194,6 +292,7 @@
           <button type="button" aria-label="Diminuir">−</button><span></span><button type="button" aria-label="Aumentar">+</button>
         </div>`;
       $('.cart-item__emoji', li).textContent = item.emoji;
+      if (item.image) $('.cart-item__emoji', li).append(photo(item, 'cart-item__img'));
       $('.cart-item__title', li).textContent = item.title;
       $('.cart-item__price', li).textContent = brl(item.price);
       $('.qty span', li).textContent = qty;
@@ -298,6 +397,7 @@
       customAmount: state.custom || undefined,
       name: f.get('name'),
       message: f.get('message'),
+      invite: inviteToken || undefined,
     };
   }
 
@@ -342,6 +442,7 @@
         $('[data-pix-qr]').innerHTML = pix.qrSvg;
         $('[data-pix-payload]').value = pix.payload;
         $('[data-pix-receiver]').textContent = `Recebedor: ${pix.receiver} · Chave: ${pix.key}`;
+        state.pixTxid = pix.txid;
         setStep('pix');
       } catch (err) {
         setStep('details');
@@ -351,6 +452,11 @@
     }
 
     if (state.step === 'pix') {
+      nextBtn.disabled = true;
+      try {
+        // Tell the couple a Pix is on its way (shows as "aguardando confirmação" in the admin panel).
+        await post('/api/pix/sent', { ...cartPayload(), txid: state.pixTxid });
+      } catch { /* the Pix itself already happened; don't block the guest */ }
       clearCart();
       window.location.href = '/obrigado?metodo=pix';
     }
