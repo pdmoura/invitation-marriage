@@ -503,6 +503,23 @@
     toast('Código copiado — é só colar no app do banco');
   });
 
+  /* ---------------- photo credits (Unsplash) ---------------- */
+  fetch('/api/photo-credits').then((r) => r.json()).then((credits) => {
+    if (!credits.length) return;
+    const el = $('[data-credits]');
+    const ref = '?utm_source=casamento_pedro_e_sara&utm_medium=referral';
+    el.append('Fotos: ');
+    credits.forEach((c, i) => {
+      const a = document.createElement('a');
+      a.href = c.url + ref; a.target = '_blank'; a.rel = 'noopener'; a.textContent = c.name;
+      el.append(a, i < credits.length - 1 ? ', ' : ' ');
+    });
+    const u = document.createElement('a');
+    u.href = 'https://unsplash.com/' + ref; u.target = '_blank'; u.rel = 'noopener'; u.textContent = 'Unsplash';
+    el.append('no ', u);
+    el.hidden = false;
+  }).catch(() => {});
+
   /* ---------------- boot ---------------- */
   fetch('/api/gifts')
     .then((r) => r.json())

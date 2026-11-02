@@ -10,7 +10,7 @@ Wedding website with:
 |---|---|---|
 | ![](docs/screenshots/01-hero.png) | ![](docs/screenshots/03-rsvp.png) | ![](docs/screenshots/08-admin.png) |
 
-> The screenshots were taken in a sandbox without access to Unsplash, so the photo frames are empty there. On a normal machine or on Render the real photos load.
+> The screenshots were taken without the photos resolved, so the frames are empty. Set `UNSPLASH_ACCESS_KEY` (see Personalize) and the real photos appear.
 
 More in [`docs/screenshots/`](docs/screenshots); design references in [`docs/inspiration.md`](docs/inspiration.md).
 
@@ -19,7 +19,7 @@ More in [`docs/screenshots/`](docs/screenshots); design references in [`docs/ins
 ```bash
 npm install
 cp .env.example .env   # set ADMIN_PASSWORD and PIX_KEY at least
-npm run images         # downloads the gift photos into public/img/gifts (needs internet)
+UNSPLASH_ACCESS_KEY=… npm run photos   # resolves the photos via the Unsplash API (one time; commit data/photo-urls.json)
 npm run dev            # site: http://localhost:3000 · admin: http://localhost:3000/admin
 ```
 
@@ -49,12 +49,12 @@ You can also edit an invite (seats, phone, notes, or set the answer yourself whe
 | What | Where |
 |---|---|
 | Names, date, city, venues, dress code, WhatsApp, RSVP deadline | `public/config.js` (venue names/addresses are still placeholders) |
-| Gifts: titles, jokes, prices, photos, categories | `data/gifts.json` (`unsplash` = photo id from the Unsplash URL; run `npm run images -- --force` after changing one) |
+| Gifts: titles, jokes, prices, photos, categories | `data/gifts.json` (`unsplash` = photo id from the Unsplash URL; run `npm run photos` after changing one) |
 | Site photos (hero, story, venues, RSVP) | `data/photos.json`, or drop your own photos with the same names into `public/img/site/` (e.g. your real couple photo as `hero.jpg`) |
 | Story timeline | `public/index.html` (`#historia`) |
 | Colors and fonts | CSS variables at the top of `public/styles.css` |
 
-All photos are free [Unsplash](https://unsplash.com/license) images. `npm run images` (run automatically on deploy) saves resized local copies; any photo not downloaded is served straight from Unsplash, and gift cards fall back to their emoji if even that fails.
+All photos are free [Unsplash](https://unsplash.com/license) images, resolved through the official Unsplash API by `npm run photos` (needs a free access key from [unsplash.com/oauth/applications](https://unsplash.com/oauth/applications) in `UNSPLASH_ACCESS_KEY`; it also runs on every deploy). The result is saved in `data/photo-urls.json`. Commit it and the key is no longer needed. Photos load from Unsplash's CDN, and photographers are credited in the footer. A file you drop into `public/img/site/` or `public/img/gifts/` always wins. Without either, the frames show a soft placeholder and gift cards show their emoji.
 
 ## Payments
 
@@ -77,4 +77,4 @@ Render's free web services don't keep files between deploys, so production data 
 1. **Supabase**: create a project → Project Settings → Database → copy the *Session pooler* connection string → that's `DATABASE_URL`. Tables are created automatically on first start.
 2. **Render**: New → Blueprint → this repo (uses `render.yaml`), then fill `PUBLIC_URL`, `ADMIN_PASSWORD`, `DATABASE_URL`, `PIX_KEY` and the Stripe keys.
 
-The build runs `npm run images`, so the gift photos are downloaded during deploy. Requires Node 22.13+.
+The build runs `npm run photos`; set `UNSPLASH_ACCESS_KEY` on Render (or commit `data/photo-urls.json`). Requires Node 22.13+.

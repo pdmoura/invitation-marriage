@@ -44,6 +44,7 @@ before(async () => {
   const app = createApp({
     db,
     stripe: fakeStripe,
+    photoUrls: { PuXtB1B4zL8: { url: 'https://images.unsplash.com/photo-1?ixid=abc', author: 'Foto Grafa', authorUrl: 'https://unsplash.com/@fotografa' } },
     env: { ADMIN_PASSWORD: 'segredo', PIX_KEY: 'casal@example.com', PIX_RECEIVER_NAME: 'Pedro e Sara', PIX_CITY: 'Formosa' },
   });
   await new Promise((resolve) => { server = app.listen(0, resolve); });
@@ -52,11 +53,16 @@ before(async () => {
 
 after(() => server.close());
 
-test('photos fall back to Unsplash when not downloaded', async () => {
+test('photos redirect to the resolved Unsplash CDN url, with credits', async () => {
   const res = await fetch(`${base}/img/site/hero.jpg`, { redirect: 'manual' });
   assert.equal(res.status, 302);
-  assert.match(res.headers.get('location'), /^https:\/\/unsplash\.com\/photos\/PuXtB1B4zL8\/download/);
+  const location = new URL(res.headers.get('location'));
+  assert.equal(location.hostname, 'images.unsplash.com');
+  assert.equal(location.searchParams.get('w'), '1800');
+  assert.equal(location.searchParams.get('ixid'), 'abc');
+  assert.equal((await fetch(`${base}/img/site/rings.jpg`, { redirect: 'manual' })).status, 404); // not resolved
   assert.equal((await fetch(`${base}/img/site/nope.jpg`, { redirect: 'manual' })).status, 404);
+  assert.deepEqual((await call('/api/photo-credits')).data, [{ name: 'Foto Grafa', url: 'https://unsplash.com/@fotografa' }]);
   const gifts = (await call('/api/gifts')).data;
   assert.equal(gifts.items.find((i) => i.id === 'frigideira-ovos').image, '/img/gifts/frigideira-ovos.jpg');
 });

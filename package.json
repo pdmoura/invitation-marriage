@@ -12,8 +12,8 @@
     "start": "node server.js",
     "dev": "node --watch --env-file-if-exists=.env server.js",
     "test": "node --test",
-    "images": "node scripts/download-images.js",
-    "build": "npm run images"
+    "photos": "node scripts/resolve-photos.js",
+    "build": "npm run photos"
   },
   "dependencies": {
     "express": "^5.3.0",
