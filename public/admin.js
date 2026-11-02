@@ -115,7 +115,7 @@
     return [
       `Olá, ${inv.name}! 💍`,
       `${couple} vão se casar no dia ${cfg.dateLabel.replace(/^\w+,\s*/, '')}, em ${cfg.city.split(' · ').slice(0, 2).join(' - ')}.`,
-      `Seu convite é para ${people(inv.seats)}. Confirme sua presença aqui:`,
+      `Reservamos lugar para ${people(inv.seats)}. Confirme sua presença em um toque:`,
       inv.link,
     ].join('\n');
   }
@@ -134,7 +134,7 @@
     const q = search.toLowerCase();
     const rows = invites.filter((inv) => {
       if (filter === 'unopened' ? inv.opened_at : filter !== 'all' && inv.status !== filter) return false;
-      return !q || [inv.name, inv.guest_names, inv.phone, inv.notes].some((v) => String(v || '').toLowerCase().includes(q));
+      return !q || [inv.name, inv.phone, inv.notes].some((v) => String(v || '').toLowerCase().includes(q));
     });
     const tbody = $('[data-invite-rows]');
     tbody.replaceChildren(
@@ -142,16 +142,12 @@
         h('tr', {},
           h('td', {},
             h('div', { className: 'cell-title', textContent: inv.name }),
-            h('div', { className: 'cell-sub', textContent: [inv.phone && phoneFmt(inv.phone), inv.notes].filter(Boolean).join(' · ') })),
-          h('td', { dataset: { label: 'Lugares' }, textContent: inv.seats }),
+            h('div', { className: 'cell-sub', textContent: inv.phone ? phoneFmt(inv.phone) : 'sem WhatsApp' })),
+          h('td', { dataset: { label: 'Pessoas' }, textContent: inv.seats }),
           h('td', { dataset: { label: 'Resposta' } },
             statusBadge(inv),
             h('div', { className: 'cell-sub', textContent: inv.opened_at ? '👀 abriu o convite' : 'ainda não abriu' })),
-          h('td', { dataset: { label: 'Quem vai' } },
-            inv.guest_names ? h('div', { textContent: inv.guest_names }) : null,
-            inv.dietary ? h('div', { className: 'cell-sub', textContent: `🍽️ ${inv.dietary}` }) : null,
-            inv.message ? h('div', { className: 'cell-msg', textContent: `“${inv.message}”` }) : null,
-            !inv.guest_names && !inv.dietary && !inv.message ? h('span', { className: 'cell-sub', textContent: '—' }) : null),
+          h('td', { dataset: { label: 'Observações' }, className: inv.notes ? '' : 'cell-sub', textContent: inv.notes || '—' }),
           h('td', { dataset: { label: 'Presentes' }, className: 'money', textContent: inv.gift_cents ? brl(inv.gift_cents) : '—' }),
           h('td', {},
             h('div', { className: 'actions' },
@@ -224,7 +220,6 @@
     editForm.phone.value = inv.phone || '';
     editForm.notes.value = inv.notes || '';
     editForm.status.value = inv.status;
-    editForm.confirmed_count.value = inv.confirmed_count;
     $('[data-edit-error]').textContent = '';
     dialog.showModal();
   }
@@ -240,7 +235,6 @@
           phone: editForm.phone.value,
           notes: editForm.notes.value,
           status: editForm.status.value,
-          confirmed_count: editForm.confirmed_count.value,
         },
       });
       dialog.close();

@@ -52,6 +52,15 @@ before(async () => {
 
 after(() => server.close());
 
+test('photos fall back to Unsplash when not downloaded', async () => {
+  const res = await fetch(`${base}/img/site/hero.jpg`, { redirect: 'manual' });
+  assert.equal(res.status, 302);
+  assert.match(res.headers.get('location'), /^https:\/\/unsplash\.com\/photos\/PuXtB1B4zL8\/download/);
+  assert.equal((await fetch(`${base}/img/site/nope.jpg`, { redirect: 'manual' })).status, 404);
+  const gifts = (await call('/api/gifts')).data;
+  assert.equal(gifts.items.find((i) => i.id === 'frigideira-ovos').image, '/img/gifts/frigideira-ovos.jpg');
+});
+
 test('admin API requires login', async () => {
   assert.equal((await call('/api/admin/summary')).status, 401);
   assert.equal((await call('/api/admin/login', { method: 'POST', body: { password: 'errada' } })).status, 401);
@@ -81,7 +90,7 @@ test('admin creates and imports invites with personalized links', async () => {
   assert.ok(invite.link.endsWith(`/c/${invite.token}`));
 });
 
-test('guest opens the personalized link and RSVPs within the seat limit', async () => {
+test('guest opens the personalized link and confirms in one tap', async () => {
   const page = await call(`/c/${invite.token}`);
   assert.equal(page.status, 200);
   assert.match(page.data, /<html/);
@@ -90,18 +99,19 @@ test('guest opens the personalized link and RSVPs within the seat limit', async 
   assert.deepEqual([info.data.name, info.data.seats, info.data.status], ['Família Souza', 4, 'pending']);
   assert.equal((await call('/api/invite/naoexiste')).status, 404);
 
-  const tooMany = await call(`/api/invite/${invite.token}/rsvp`, { method: 'POST', body: { attending: 'yes', count: 5 } });
-  assert.equal(tooMany.status, 400);
+  const bad = await call(`/api/invite/${invite.token}/rsvp`, { method: 'POST', body: { attending: 'maybe' } });
+  assert.equal(bad.status, 400);
 
-  const ok = await call(`/api/invite/${invite.token}/rsvp`, {
-    method: 'POST', body: { attending: 'yes', count: 3, guestNames: 'Ana, Bia, Caio', dietary: 'vegetariano' },
-  });
+  // One tap confirms exactly the seats the couple reserved — guests can't change the number.
+  const ok = await call(`/api/invite/${invite.token}/rsvp`, { method: 'POST', body: { attending: 'yes', count: 99 } });
   assert.equal(ok.status, 200);
+  assert.equal(ok.data.seats, 4);
+  assert.equal((await call(`/api/invite/${invite.token}`)).data.status, 'yes');
 
   const summary = await call('/api/admin/summary', { auth: true });
   assert.equal(summary.data.invites.total, 3);
   assert.equal(summary.data.invites.seats, 4 + 2 + 1);
-  assert.equal(summary.data.invites.confirmedPeople, 3);
+  assert.equal(summary.data.invites.confirmedPeople, 4);
   assert.equal(summary.data.invites.opened, 1);
   assert.equal(summary.data.invites.pendingSeats, 3);
 });
@@ -152,8 +162,8 @@ test('card checkout is priced on the server and recorded once paid', async () =>
 test('manual gifts, edits and CSV export', async () => {
   const gift = await call('/api/admin/gifts', { method: 'POST', auth: true, body: { guest_name: 'Vó Lúcia', amount: '300' } });
   assert.equal(gift.status, 201);
-  const edited = await call(`/api/admin/invites/${invite.id}`, { method: 'PATCH', auth: true, body: { seats: 2 } });
-  assert.equal(edited.status, 400); // 3 confirmed > 2 seats
+  const edited = await call(`/api/admin/invites/${invite.id}`, { method: 'PATCH', auth: true, body: { seats: 3 } });
+  assert.equal(edited.data.confirmed_count, 3); // confirmed invites always count all their seats
   const ok = await call(`/api/admin/invites/${invite.id}`, { method: 'PATCH', auth: true, body: { status: 'no' } });
   assert.equal(ok.data.confirmed_count, 0);
   const csv = await call('/api/admin/invites.csv', { auth: true });

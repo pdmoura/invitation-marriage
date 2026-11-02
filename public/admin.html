@@ -7,7 +7,7 @@
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/admin.css">
   <script src="/config.js"></script>
@@ -42,7 +42,7 @@
       <section class="stats" aria-label="Resumo">
         <article class="stat stat--wide">
           <p class="stat__label">Presença confirmada</p>
-          <p class="stat__value"><span data-s="confirmedPeople">0</span> <small>de <span data-s="seats">0</span> convidados</small></p>
+          <p class="stat__value"><span data-s="confirmedPeople">0</span> <small>de <span data-s="seats">0</span> pessoas</small></p>
           <div class="bar" aria-hidden="true">
             <span class="bar__yes" data-bar="yes"></span><span class="bar__no" data-bar="no"></span>
           </div>
@@ -76,16 +76,16 @@
       <section data-panel="invites">
         <div class="panel-actions">
           <form class="inline-form" data-add-invite>
-            <input name="name" required placeholder="Nome no convite (ex.: Família Souza)" aria-label="Nome no convite">
-            <input name="seats" type="number" min="1" max="30" value="2" required aria-label="Lugares" title="Lugares">
+            <input name="name" required placeholder="Nome no convite (ex.: Joana e família)" aria-label="Nome no convite">
+            <input name="seats" type="number" min="1" max="30" value="2" required aria-label="Número de pessoas" title="Número de pessoas">
             <input name="phone" inputmode="tel" placeholder="WhatsApp (opcional)" aria-label="WhatsApp">
             <button class="btn btn--primary" type="submit">Adicionar</button>
           </form>
           <details class="import">
             <summary>Importar lista</summary>
             <form data-import-form>
-              <p class="hint">Um convite por linha: <code>Nome; lugares; telefone</code>. Também dá para colar direto de uma planilha (colunas Nome, Lugares, Telefone).</p>
-              <textarea name="text" rows="6" placeholder="Família Souza; 4; 61 99999-1111&#10;Tio João e Tia Maria; 2; 61 98888-2222&#10;Lucas (padrinho); 1"></textarea>
+              <p class="hint">Um convite por linha: <code>Nome; pessoas; telefone</code>. Também dá para colar direto de uma planilha (colunas Nome, Lugares, Telefone).</p>
+              <textarea name="text" rows="6" placeholder="Joana e família; 4; 61 99999-1111&#10;Tio João e Tia Maria; 2; 61 98888-2222&#10;Lucas; 1"></textarea>
               <button class="btn btn--primary" type="submit">Importar</button>
               <p class="hint" data-import-result></p>
             </form>
@@ -107,7 +107,7 @@
         <div class="table-wrap">
           <table class="table">
             <thead>
-              <tr><th>Convite</th><th>Lugares</th><th>Resposta</th><th>Quem vai / observações</th><th>Presentes</th><th class="right">Ações</th></tr>
+              <tr><th>Convite</th><th>Pessoas</th><th>Resposta</th><th>Observações</th><th>Presentes</th><th class="right">Ações</th></tr>
             </thead>
             <tbody data-invite-rows></tbody>
           </table>
@@ -145,20 +145,17 @@
       <h2>Editar convite</h2>
       <label>Nome no convite<input name="name" required></label>
       <div class="grid-2">
-        <label>Lugares<input name="seats" type="number" min="1" max="30" required></label>
+        <label>Pessoas<input name="seats" type="number" min="1" max="30" required></label>
         <label>WhatsApp<input name="phone" inputmode="tel"></label>
       </div>
       <label>Observações internas<input name="notes" placeholder="Ex.: padrinhos, mesa 3…"></label>
-      <div class="grid-2">
-        <label>Resposta
-          <select name="status">
-            <option value="pending">Aguardando</option>
-            <option value="yes">Confirmado</option>
-            <option value="no">Não vai</option>
-          </select>
-        </label>
-        <label>Confirmados<input name="confirmed_count" type="number" min="0" max="30"></label>
-      </div>
+      <label>Resposta
+        <select name="status">
+          <option value="pending">Aguardando</option>
+          <option value="yes">Confirmado</option>
+          <option value="no">Não vai</option>
+        </select>
+      </label>
       <p class="form-error" data-edit-error role="alert"></p>
       <div class="dialog__actions">
         <button class="btn btn--link" value="cancel" formnovalidate>Cancelar</button>

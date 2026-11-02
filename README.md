@@ -2,13 +2,15 @@
 
 Wedding website with:
 
-- **Personalized invitations**: every guest (or family) gets their own link, `…/c/<code>`, with a greeting, their number of seats, and an RSVP that can't go over that number.
-- **Gift registry that is really a cash fund**: guests "buy" funny gifts (honeymoon quota, a frying pan for eggs, Spider-Man pants for the groom…) with real photos. Nothing is shipped; you just get the money via **Pix** (QR code / copia e cola straight to your bank, no fees) or **credit card** (Stripe Checkout).
-- **Couple's admin panel** at `/admin`: guest list, who opened the link, who confirmed (and how many people), and how much money has come in.
+- **Personal invitations, one-tap RSVP**: every invite (e.g. *"Joana e família" — 4 pessoas*) gets its own link, `…/c/<code>`. The guest sees their name and the seats reserved for them, and taps **Confirmar presença** or **Não poderei ir**. No forms, and nobody can add extra people.
+- **Gift registry that is really a cash fund**: guests "buy" funny gifts (honeymoon quota, a frying pan for eggs, Spider-Man pants for the groom…) shown with real photos. Nothing is shipped; you get the money via **Pix** (QR code / copia e cola straight to your bank, no fees) or **credit card** (Stripe Checkout).
+- **Couple's admin panel** at `/admin`: guest list, who opened their link, who confirmed, and how much money has come in.
 
-| Personalized invite | RSVP | Admin |
+| Personal invite | One-tap RSVP | Admin |
 |---|---|---|
-| ![](docs/screenshots/01-convite-personalizado.png) | ![](docs/screenshots/02-rsvp-personalizado.png) | ![](docs/screenshots/07-admin-convidados.png) |
+| ![](docs/screenshots/01-hero.png) | ![](docs/screenshots/03-rsvp.png) | ![](docs/screenshots/08-admin.png) |
+
+> The screenshots were taken in a sandbox without access to Unsplash, so the photo frames are empty there. On a normal machine or on Render the real photos load.
 
 More in [`docs/screenshots/`](docs/screenshots); design references in [`docs/inspiration.md`](docs/inspiration.md).
 
@@ -30,10 +32,10 @@ Without `DATABASE_URL`, data goes to a local SQLite file (`data/wedding.db`, git
 ## How the couple uses it
 
 1. Open `/admin` and log in with `ADMIN_PASSWORD`.
-2. Add invites one by one, or **Importar lista** to paste many at once: one per line, `Nome; lugares; telefone` (pasting columns from Google Sheets/Excel also works).
+2. Add invites one by one (name as it should appear, e.g. *Joana e família*, plus the exact number of people), or **Importar lista** to paste many at once: one per line, `Nome; pessoas; telefone` (pasting columns from Google Sheets/Excel also works).
 3. For each invite click **Enviar no WhatsApp**: it opens WhatsApp with a ready message and the personal link (or **Copiar link**).
 4. Follow along on the dashboard:
-   - **Presença confirmada**: confirmed people vs. invited seats, with a progress bar.
+   - **Presença confirmada**: confirmed people vs. invited people. Confirming an invite always counts all of its people.
    - **Convites**: how many opened their link and how many haven't answered. The filters show *Confirmados / Aguardando / Não vão / Não abriram*.
    - **Arrecadado**: money received (card + Pix + other), plus how much each invite gave.
    - **Pix a conferir**: guests who clicked "Já fiz o Pix". Check your bank app, then click **Confirmar recebimento**.
@@ -48,11 +50,11 @@ You can also edit an invite (seats, phone, notes, or set the answer yourself whe
 |---|---|
 | Names, date, city, venues, dress code, WhatsApp, RSVP deadline | `public/config.js` (venue names/addresses are still placeholders) |
 | Gifts: titles, jokes, prices, photos, categories | `data/gifts.json` (`unsplash` = photo id from the Unsplash URL; run `npm run images -- --force` after changing one) |
+| Site photos (hero, story, venues, RSVP) | `data/photos.json`, or drop your own photos with the same names into `public/img/site/` (e.g. your real couple photo as `hero.jpg`) |
 | Story timeline | `public/index.html` (`#historia`) |
-| Couple photo in the hero | add `public/img/casal.jpg` and uncomment the `<img>` |
 | Colors and fonts | CSS variables at the top of `public/styles.css` |
 
-Gift photos are free [Unsplash](https://unsplash.com/license) images. `npm run images` saves local copies so the site doesn't depend on Unsplash; if a photo is missing the card falls back to the Unsplash URL, then to the emoji.
+All photos are free [Unsplash](https://unsplash.com/license) images. `npm run images` (run automatically on deploy) saves resized local copies; any photo not downloaded is served straight from Unsplash, and gift cards fall back to their emoji if even that fails.
 
 ## Payments
 
