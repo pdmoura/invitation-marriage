@@ -79,13 +79,22 @@
             <input name="name" required placeholder="Nome no convite (ex.: Joana e família)" aria-label="Nome no convite">
             <input name="seats" type="number" min="1" max="30" value="2" required aria-label="Número de pessoas" title="Número de pessoas">
             <input name="phone" inputmode="tel" placeholder="WhatsApp (opcional)" aria-label="WhatsApp">
+            <select name="lang" aria-label="Idioma do convite" title="Idioma do convite">
+              <option value="pt">🇧🇷 Português</option>
+              <option value="en">🇺🇸 English</option>
+              <option value="es">🇪🇸 Español</option>
+            </select>
+            <select name="gift_mode" aria-label="Presentes" title="O que este convidado vê na seção de presentes">
+              <option value="items">🎁 Lista de presentes</option>
+              <option value="simple">💛 Só contribuição</option>
+            </select>
             <button class="btn btn--primary" type="submit">Adicionar</button>
           </form>
           <details class="import">
             <summary>Importar lista</summary>
             <form data-import-form>
-              <p class="hint">Um convite por linha: <code>Nome; pessoas; telefone</code>. Também dá para colar direto de uma planilha (colunas Nome, Lugares, Telefone).</p>
-              <textarea name="text" rows="6" placeholder="Joana e família; 4; 61 99999-1111&#10;Tio João e Tia Maria; 2; 61 98888-2222&#10;Lucas; 1"></textarea>
+              <p class="hint">Um convite por linha: <code>Nome; pessoas; telefone; idioma; presentes</code> (idioma: <code>pt</code>, <code>en</code> ou <code>es</code>; presentes: <code>lista</code> ou <code>simples</code>). Também dá para colar direto de uma planilha.</p>
+              <textarea name="text" rows="6" placeholder="Joana e família; 4; 61 99999-1111&#10;John and Mary; 2; +1 555 123 4567; en; simples&#10;Familia García; 3; ; es; lista"></textarea>
               <button class="btn btn--primary" type="submit">Importar</button>
               <p class="hint" data-import-result></p>
             </form>
@@ -107,7 +116,7 @@
         <div class="table-wrap">
           <table class="table">
             <thead>
-              <tr><th>Convite</th><th>Pessoas</th><th>Resposta</th><th>Observações</th><th>Presentes</th><th class="right">Ações</th></tr>
+              <tr><th>Convite</th><th>Pessoas</th><th>Idioma</th><th>Presentes</th><th>Resposta</th><th>Observações</th><th>Presentes</th><th class="right">Ações</th></tr>
             </thead>
             <tbody data-invite-rows></tbody>
           </table>
@@ -148,6 +157,20 @@
         <label>Pessoas<input name="seats" type="number" min="1" max="30" required></label>
         <label>WhatsApp<input name="phone" inputmode="tel"></label>
       </div>
+      <label>Idioma da página do convidado
+        <select name="lang" aria-label="Idioma do convite" title="Idioma do convite">
+          <option value="pt">🇧🇷 Português</option>
+          <option value="en">🇺🇸 English</option>
+          <option value="es">🇪🇸 Español</option>
+        </select>
+      </label>
+      <label>Presentes que este convidado vê
+        <select name="gift_mode" aria-label="Presentes" title="O que este convidado vê na seção de presentes">
+          <option value="items">🎁 Lista de presentes</option>
+          <option value="simple">💛 Só contribuição</option>
+        </select>
+        <small class="hint">“Só contribuição” mostra um único cartão pedindo um presente em dinheiro, com Pix ou cartão na hora.</small>
+      </label>
       <label>Observações internas<input name="notes" placeholder="Ex.: padrinhos, mesa 3…"></label>
       <label>Resposta
         <select name="status">

@@ -4,83 +4,109 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Pedro &amp; Sara · 17.07.2027</title>
-  <meta name="description" content="Pedro & Sara vão se casar em 17 de julho de 2027, em Formosa, GO. Confirme sua presença e veja a lista de presentes.">
-  <meta name="theme-color" content="#151412">
+  <meta name="description" content="Pedro & Sara · 17.07.2027 · Formosa, GO">
+  <meta name="theme-color" content="#efe9df">
   <meta property="og:title" content="Pedro & Sara · 17.07.2027">
-  <meta property="og:description" content="Você está convidado! Confirme sua presença.">
+  <meta property="og:description" content="Você está convidado · You're invited · Estás invitado">
   <meta property="og:image" content="/img/site/hero.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="/img/site/hero.jpg">
   <link rel="stylesheet" href="/styles.css">
+  <script>
+    // Decide before first paint whether to show the envelope (once per invite, per device).
+    (function () {
+      var m = location.pathname.match(/^\/c\/([a-z0-9]{4,20})/i);
+      var key = 'wedding-envelope-' + (m ? m[1] : 'site');
+      var seen = false;
+      try { seen = localStorage.getItem(key) === '1'; } catch (e) {}
+      if (!seen || /[?&]envelope/.test(location.search)) document.documentElement.classList.add('show-intro');
+      document.documentElement.dataset.envelopeKey = key;
+    })();
+  </script>
   <script src="/config.js"></script>
+  <script src="/i18n.js"></script>
+  <script src="/vendor/lenis.min.js" defer></script>
   <script src="/app.js" defer></script>
 </head>
 <body>
+  <!-- ENVELOPE INTRO -->
+  <div class="intro" data-intro>
+    <div class="intro__inner">
+      <p class="intro__to"><span data-i18n="intro.to">Para</span> <b data-intro-name>você</b></p>
+      <button class="env" type="button" data-intro-open aria-describedby="intro-hint">
+        <span class="env__back"></span>
+        <span class="env__letter">
+          <span class="env__letter-kicker" data-i18n="intro.letter">Temos a alegria de convidar você para o nosso casamento</span>
+          <span class="env__letter-names"><span data-bind="first">Pedro</span> <i>&amp;</i> <span data-bind="second">Sara</span></span>
+          <span class="env__letter-rule"></span>
+          <span class="env__letter-date" data-long-date>17 de julho de 2027</span>
+          <span class="env__letter-city" data-bind="cityShort">Formosa, GO</span>
+        </span>
+        <span class="env__pocket"></span>
+        <span class="env__flap"><span class="env__flap-face"></span></span>
+        <span class="env__seal" aria-hidden="true"><span>P<i>&amp;</i>S</span></span>
+      </button>
+      <p class="intro__hint" id="intro-hint" data-i18n="intro.hint">Toque para abrir</p>
+    </div>
+    <button class="intro__skip" type="button" data-intro-skip data-i18n="intro.skip">Pular</button>
+  </div>
+
   <!-- NAV -->
   <header class="nav" data-nav>
     <a class="nav__brand" href="#top" aria-label="Início">P<i>&amp;</i>S</a>
     <nav class="nav__links" aria-label="Seções">
-      <a href="#historia">Nossa história</a>
-      <a href="#o-dia">O grande dia</a>
-      <a href="#presentes">Presentes</a>
+      <a href="#historia" data-i18n="nav.story">Nossa história</a>
+      <a href="#o-dia" data-i18n="nav.day">O grande dia</a>
+      <a href="#presentes" data-i18n="nav.gifts">Presentes</a>
     </nav>
-    <div class="nav__actions">
-      <a class="btn btn--primary btn--sm nav__cta" href="#rsvp">Confirmar presença</a>
-      <button class="bag-btn" type="button" data-open-cart aria-label="Abrir sacola de presentes">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 8h13l-1 12.5h-11L5.5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
-        <span class="bag-btn__count" data-cart-count hidden>0</span>
-      </button>
-    </div>
+    <a class="btn btn--primary btn--sm nav__cta" href="#rsvp" data-i18n="nav.rsvp">Confirmar presença</a>
   </header>
 
   <main id="top">
     <!-- HERO -->
     <section class="hero">
       <div class="hero__media">
-        <img class="hero__img" src="/img/site/hero.jpg" alt="" data-parallax="0.18" fetchpriority="high" data-photo>
+        <img class="hero__img" src="/img/site/hero.jpg" alt="" data-parallax="0.12" fetchpriority="high">
         <div class="hero__shade"></div>
       </div>
       <div class="hero__content">
         <p class="hero__greeting" data-invite-greeting hidden></p>
-        <p class="hero__kicker" data-hero-in style="--d: 0">Vamos nos casar</p>
-        <h1 class="hero__names" aria-label="Pedro e Sara">
+        <p class="hero__kicker" data-hero-in style="--d: 0" data-i18n="hero.kicker">Vamos nos casar</p>
+        <h1 class="hero__names">
           <span class="line"><span data-hero-in style="--d: 1" data-bind="first">Pedro</span></span>
           <span class="line line--amp"><span data-hero-in style="--d: 2"><i>&amp;</i> <span data-bind="second">Sara</span></span></span>
         </h1>
         <div class="hero__meta" data-hero-in style="--d: 3">
-          <span data-bind="dateLabel">Sábado, 17 de julho de 2027</span>
+          <span data-long-date-weekday>Sábado, 17 de julho de 2027</span>
           <span class="hero__sep" aria-hidden="true"></span>
           <span data-bind="cityShort">Formosa, GO</span>
         </div>
       </div>
-      <a class="hero__scroll" href="#convite" aria-label="Rolar para baixo"><span></span></a>
+      <a class="hero__scroll" href="#convite" aria-label="↓"><span></span></a>
     </section>
 
     <!-- MARQUEE -->
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee__track" data-marquee></div>
-    </div>
+    <div class="marquee" aria-hidden="true"><div class="marquee__track" data-marquee></div></div>
 
     <!-- STATEMENT + COUNTDOWN -->
-    <section class="section intro" id="convite">
-      <p class="label" data-reveal>O convite</p>
-      <p class="statement" data-words>Depois de muitos cafés, algumas viagens e um pedido de joelhos, decidimos dizer sim. E a festa só fica completa com você lá.</p>
-      <div class="intro__grid">
-        <figure class="photo photo--tall" data-reveal="clip">
-          <img src="/img/site/rings.jpg" alt="Mãos do casal com alianças" loading="lazy" data-photo>
-        </figure>
+    <section class="section intro-sec" id="convite">
+      <p class="label" data-reveal data-i18n="intro.label">O convite</p>
+      <p class="statement" data-words data-i18n="intro.statement"></p>
+      <div class="intro-sec__grid">
+        <figure class="photo" data-reveal="clip"><img src="/img/site/rings.jpg" alt="" loading="lazy"></figure>
         <div class="countdown" data-reveal>
-          <p class="label">Faltam</p>
+          <p class="label" data-i18n="count.label">Faltam</p>
           <div class="countdown__grid">
-            <div><strong data-cd="days">000</strong><span>dias</span></div>
-            <div><strong data-cd="hours">00</strong><span>horas</span></div>
-            <div><strong data-cd="minutes">00</strong><span>minutos</span></div>
-            <div><strong data-cd="seconds">00</strong><span>segundos</span></div>
+            <div><strong data-cd="days">000</strong><span data-i18n="count.days">dias</span></div>
+            <div><strong data-cd="hours">00</strong><span data-i18n="count.hours">horas</span></div>
+            <div><strong data-cd="minutes">00</strong><span data-i18n="count.minutes">minutos</span></div>
+            <div><strong data-cd="seconds">00</strong><span data-i18n="count.seconds">segundos</span></div>
           </div>
           <button class="btn btn--ghost" type="button" data-add-calendar>
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
-            Salvar na agenda
+            <span data-i18n="calendar.save">Salvar na agenda</span>
           </button>
         </div>
       </div>
@@ -89,27 +115,27 @@
     <!-- STORY -->
     <section class="section story" id="historia">
       <div class="section__head">
-        <p class="label" data-reveal>Nossa história</p>
-        <h2 data-reveal style="--d: 1">Um capítulo de cada vez</h2>
+        <p class="label" data-reveal data-i18n="story.label">Nossa história</p>
+        <h2 data-reveal style="--d: 1" data-i18n="story.title">Um capítulo de cada vez</h2>
       </div>
       <div class="story__track">
         <article class="moment" data-reveal style="--d: 0">
-          <figure class="photo" data-reveal="clip"><img src="/img/site/story-1.jpg" alt="" loading="lazy" data-photo></figure>
+          <figure class="photo" data-reveal="clip"><img src="/img/site/story-1.jpg" alt="" loading="lazy"></figure>
           <p class="moment__year">2019</p>
-          <h3>O primeiro café</h3>
-          <p>Um amigo em comum, uma mesa de canto e uma conversa que durou até fecharem as portas.</p>
+          <h3 data-i18n="story.1.title"></h3>
+          <p data-i18n="story.1.text"></p>
         </article>
         <article class="moment moment--offset" data-reveal style="--d: 1">
-          <figure class="photo" data-reveal="clip"><img src="/img/site/story-2.jpg" alt="" loading="lazy" data-photo></figure>
+          <figure class="photo" data-reveal="clip"><img src="/img/site/story-2.jpg" alt="" loading="lazy"></figure>
           <p class="moment__year">2022</p>
-          <h3>A primeira viagem</h3>
-          <p>Descobrimos que viajamos bem juntos — exceto na hora de decidir quem fica com a janela.</p>
+          <h3 data-i18n="story.2.title"></h3>
+          <p data-i18n="story.2.text"></p>
         </article>
         <article class="moment" data-reveal style="--d: 2">
-          <figure class="photo" data-reveal="clip"><img src="/img/site/story-3.jpg" alt="" loading="lazy" data-photo></figure>
+          <figure class="photo" data-reveal="clip"><img src="/img/site/story-3.jpg" alt="" loading="lazy"></figure>
           <p class="moment__year">2026</p>
-          <h3>O pedido</h3>
-          <p>Joelho no chão, voz tremendo e um "sim" antes mesmo da pergunta terminar.</p>
+          <h3 data-i18n="story.3.title"></h3>
+          <p data-i18n="story.3.text"></p>
         </article>
       </div>
     </section>
@@ -117,115 +143,102 @@
     <!-- THE DAY -->
     <section class="section day dark" id="o-dia">
       <div class="section__head">
-        <p class="label" data-reveal>O grande dia</p>
-        <h2 data-reveal style="--d: 1"><span data-bind="dayLabel">17 de julho</span>, <i>em Formosa</i></h2>
+        <p class="label" data-reveal data-i18n="day.label">O grande dia</p>
+        <h2 data-reveal style="--d: 1" data-day-title></h2>
       </div>
       <div class="day__grid">
         <article class="venue" data-reveal style="--d: 0">
-          <figure class="photo" data-reveal="clip"><img src="/img/site/ceremony.jpg" alt="" loading="lazy" data-photo></figure>
+          <figure class="photo"><img src="/img/site/ceremony.jpg" alt="" loading="lazy" data-parallax-inner></figure>
           <div class="venue__body">
             <p class="venue__time" data-bind="ceremony.time">16h</p>
             <div>
-              <p class="label">Cerimônia</p>
-              <h3 data-bind="ceremony.place">Local da cerimônia</h3>
-              <p class="venue__addr" data-bind="ceremony.address">Endereço</p>
-              <a class="link-arrow" data-href="ceremony.mapsUrl" target="_blank" rel="noopener">Abrir no mapa</a>
+              <p class="label" data-i18n="day.ceremony">Cerimônia</p>
+              <h3 data-bind="ceremony.place"></h3>
+              <p class="venue__addr" data-bind="ceremony.address"></p>
+              <a class="link-arrow" data-href="ceremony.mapsUrl" target="_blank" rel="noopener" data-i18n="day.map">Abrir no mapa</a>
             </div>
           </div>
         </article>
         <article class="venue" data-reveal style="--d: 1">
-          <figure class="photo" data-reveal="clip"><img src="/img/site/reception.jpg" alt="" loading="lazy" data-photo></figure>
+          <figure class="photo"><img src="/img/site/reception.jpg" alt="" loading="lazy" data-parallax-inner></figure>
           <div class="venue__body">
             <p class="venue__time" data-bind="party.time">18h</p>
             <div>
-              <p class="label">Recepção</p>
-              <h3 data-bind="party.place">Local da recepção</h3>
-              <p class="venue__addr" data-bind="party.address">Endereço</p>
-              <a class="link-arrow" data-href="party.mapsUrl" target="_blank" rel="noopener">Abrir no mapa</a>
+              <p class="label" data-i18n="day.reception">Recepção</p>
+              <h3 data-bind="party.place"></h3>
+              <p class="venue__addr" data-bind="party.address"></p>
+              <a class="link-arrow" data-href="party.mapsUrl" target="_blank" rel="noopener" data-i18n="day.map">Abrir no mapa</a>
             </div>
           </div>
         </article>
       </div>
       <div class="dresscode" data-reveal>
-        <p class="label">Traje</p>
-        <p data-bind="dressCode">Esporte fino</p>
+        <p class="label" data-i18n="day.dress">Traje</p>
+        <p data-dresscode></p>
       </div>
     </section>
 
     <!-- GIFTS -->
     <section class="section gifts" id="presentes">
-      <div class="gifts__head">
-        <div>
-          <p class="label" data-reveal>Lista de presentes</p>
-          <h2 data-reveal style="--d: 1">Presentes <i>(quase)</i> sérios</h2>
+      <!-- Simple mode (set per invite in the admin): one card, one button -->
+      <article class="gift-simple" data-gift-simple hidden>
+        <figure class="photo gift-simple__photo" data-reveal="clip"><img src="/img/site/mexico.jpg" alt="" loading="lazy"></figure>
+        <div class="gift-simple__body" data-reveal style="--d: 1">
+          <p class="label" data-i18n="simple.label"></p>
+          <h2 data-i18n-html="simple.title"></h2>
+          <p class="lead" data-i18n="simple.text"></p>
+          <button class="btn btn--primary btn--lg" type="button" data-simple-give data-i18n="simple.cta"></button>
+          <p class="gift-simple__note" data-i18n="simple.note"></p>
         </div>
-        <p class="lead" data-reveal style="--d: 2">Nossa casa já tem quase tudo — menos dinheiro. Escolha um mimo abaixo: ele vira uma contribuição direta para os noivos, via <b>Pix</b> ou <b>cartão</b>.</p>
-      </div>
+      </article>
 
-      <div class="shop-bar" data-reveal>
-        <div class="chips" role="tablist" aria-label="Categorias" data-filters></div>
-        <label class="sort">
-          <span class="sr-only">Ordenar</span>
-          <select data-sort>
-            <option value="featured">Destaques</option>
-            <option value="asc">Menor preço</option>
-            <option value="desc">Maior preço</option>
-          </select>
-        </label>
+      <div class="gifts__head" data-gift-list>
+        <div>
+          <p class="label" data-reveal data-i18n="gifts.label">Lista de presentes</p>
+          <h2 data-reveal style="--d: 1" data-i18n-html="gifts.title"></h2>
+        </div>
+        <p class="lead" data-reveal style="--d: 2" data-i18n="gifts.lead"></p>
       </div>
-
-      <div class="gift-grid" data-gift-grid aria-live="polite"></div>
+      <div class="gift-grid" data-gift-grid data-gift-list></div>
     </section>
 
     <!-- RSVP -->
     <section class="section rsvp" id="rsvp">
       <div class="rsvp__wrap">
-        <figure class="rsvp__photo photo" data-reveal="clip">
-          <img src="/img/site/toast.jpg" alt="" loading="lazy" data-photo>
-        </figure>
-
+        <figure class="rsvp__photo photo" data-reveal="clip"><img src="/img/site/toast.jpg" alt="" loading="lazy"></figure>
         <div class="rsvp__card" data-reveal style="--d: 1">
-          <!-- No personalized link -->
           <div class="rsvp__state" data-rsvp="nolink">
-            <p class="label">Confirmação de presença</p>
-            <h2>Use o seu <i>link pessoal</i></h2>
-            <p class="lead">Cada convite tem um link só seu, que enviamos pelo WhatsApp. É por ele que você confirma em um toque.</p>
-            <a class="btn btn--ghost" data-whatsapp-help target="_blank" rel="noopener">Não achei meu link</a>
+            <p class="label" data-i18n="rsvp.label">Confirmação de presença</p>
+            <h2 data-i18n-html="rsvp.nolinkTitle"></h2>
+            <p class="lead" data-i18n="rsvp.nolinkText"></p>
+            <div class="rsvp__actions"><a class="btn btn--ghost btn--lg" data-whatsapp-help target="_blank" rel="noopener" data-i18n="rsvp.nolinkCta"></a></div>
           </div>
-
-          <!-- Personalized: waiting for answer -->
           <div class="rsvp__state" data-rsvp="pending" hidden>
-            <p class="label">Confirmação de presença</p>
-            <h2 data-invite-name>Convidado</h2>
+            <p class="label" data-i18n="rsvp.label">Confirmação de presença</p>
+            <h2 data-invite-name></h2>
             <div class="seats" data-seats aria-hidden="true"></div>
-            <p class="lead">Reservamos <b data-invite-seats>2 lugares</b> para vocês. Responda até <b data-bind="rsvpDeadline">17 de junho</b>.</p>
+            <p class="lead" data-rsvp-reserved></p>
             <div class="rsvp__actions">
-              <button class="btn btn--primary btn--lg" type="button" data-answer="yes">Confirmar presença</button>
-              <button class="btn btn--ghost btn--lg" type="button" data-answer="no">Não poderei ir</button>
+              <button class="btn btn--primary btn--lg" type="button" data-answer="yes" data-i18n="rsvp.yes"></button>
+              <button class="btn btn--ghost btn--lg" type="button" data-answer="no" data-i18n="rsvp.no"></button>
             </div>
             <p class="form-error" data-rsvp-error role="alert"></p>
           </div>
-
-          <!-- Confirmed -->
-          <div class="rsvp__state rsvp__done" data-rsvp="yes" hidden>
+          <div class="rsvp__state" data-rsvp="yes" hidden>
             <div class="check" aria-hidden="true"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg></div>
-            <h2>Presença <i>confirmada!</i></h2>
-            <p class="lead" data-yes-text>Esperamos vocês no dia 17 de julho.</p>
+            <h2 data-i18n-html="rsvp.yesTitle"></h2>
+            <p class="lead" data-yes-text></p>
             <div class="rsvp__actions">
-              <button class="btn btn--primary" type="button" data-add-calendar>Salvar na agenda</button>
-              <a class="btn btn--ghost" href="#presentes">Ver lista de presentes</a>
+              <button class="btn btn--primary btn--lg" type="button" data-add-calendar data-i18n="calendar.save"></button>
+              <a class="btn btn--ghost btn--lg" href="#presentes" data-i18n="rsvp.seeGifts"></a>
             </div>
-            <button class="btn btn--link" type="button" data-change-answer>Mudar resposta</button>
+            <button class="btn btn--link" type="button" data-change-answer data-i18n="rsvp.change"></button>
           </div>
-
-          <!-- Declined -->
-          <div class="rsvp__state rsvp__done" data-rsvp="no" hidden>
-            <h2>Que pena! <i>Obrigado por avisar.</i></h2>
-            <p class="lead">Vamos sentir sua falta. Se quiser, ainda dá para mandar um mimo pela lista de presentes.</p>
-            <div class="rsvp__actions">
-              <a class="btn btn--ghost" href="#presentes">Ver lista de presentes</a>
-            </div>
-            <button class="btn btn--link" type="button" data-change-answer>Mudar resposta</button>
+          <div class="rsvp__state" data-rsvp="no" hidden>
+            <h2 data-i18n-html="rsvp.noTitle"></h2>
+            <p class="lead" data-i18n="rsvp.noText"></p>
+            <div class="rsvp__actions"><a class="btn btn--ghost btn--lg" href="#presentes" data-i18n="rsvp.seeGifts"></a></div>
+            <button class="btn btn--link" type="button" data-change-answer data-i18n="rsvp.change"></button>
           </div>
         </div>
       </div>
@@ -235,82 +248,76 @@
   <footer class="footer">
     <p class="footer__names" data-reveal>Pedro <i>&amp;</i> Sara</p>
     <div class="footer__row">
-      <span data-bind="shortDate">17 · 07 · 27</span>
-      <span>Feito com amor — e muitas planilhas</span>
-      <a href="#top">Voltar ao topo ↑</a>
+      <span data-short-date>17 · 07 · 27</span>
+      <span data-i18n="footer.love"></span>
+      <span class="footer__links">
+        <button type="button" class="footer__link" data-reopen data-i18n="footer.reopen"></button>
+        <a class="footer__link" href="#top" data-i18n="footer.top"></a>
+      </span>
     </div>
-    <p class="footer__credits" data-credits hidden></p>
+    <div class="footer__row footer__row--small">
+      <span class="langs" data-langs><button type="button" data-lang="pt">PT</button><button type="button" data-lang="en">EN</button><button type="button" data-lang="es">ES</button></span>
+      <span data-i18n="footer.photos"></span>
+    </div>
   </footer>
 
-  <!-- FLOATING BAG (mobile) -->
-  <button class="float-bag" type="button" data-open-cart data-float-bag hidden>
-    <span>Ver sacola</span><span class="float-bag__meta" data-float-meta></span>
-  </button>
-
-  <!-- CART DRAWER -->
-  <div class="overlay" data-overlay hidden></div>
-  <aside class="drawer" data-drawer aria-label="Sacola de presentes" aria-hidden="true">
-    <div class="drawer__head">
-      <h2 data-drawer-title>Sua sacola</h2>
-      <button class="icon-btn" type="button" data-close aria-label="Fechar">
+  <!-- DONATE (one step, no cart) -->
+  <dialog class="sheet" data-donate aria-labelledby="donate-title">
+    <div class="sheet__panel">
+      <button class="sheet__close" type="button" data-donate-close aria-label="✕">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
-    </div>
 
-    <div class="drawer__body" data-step="cart">
-      <ul class="cart-list" data-cart-list></ul>
-      <div class="cart-empty" data-cart-empty>
-        <p>Sua sacola está vazia.</p>
-        <p class="muted">Que tal começar pela frigideira? 🍳</p>
-      </div>
-      <form class="custom-amount" data-custom-form>
-        <p class="label">Ou escolha um valor</p>
-        <div class="custom-amount__row">
-          <label class="money-input"><span>R$</span><input type="number" inputmode="decimal" min="10" step="1" placeholder="150" required aria-label="Valor em reais"></label>
-          <button class="btn btn--ghost" type="submit">Adicionar</button>
+      <form class="sheet__view" data-view="form" novalidate>
+        <div class="sheet__item">
+          <div class="sheet__thumb" data-donate-thumb></div>
+          <div>
+            <h2 id="donate-title" data-donate-title></h2>
+            <p class="sheet__desc" data-donate-desc></p>
+          </div>
         </div>
+
+        <div class="sheet__row" data-donate-qty-row hidden>
+          <span data-i18n="donate.qty">Quantidade</span>
+          <div class="qty"><button type="button" data-qty="-1" aria-label="−">−</button><span data-donate-qty>1</span><button type="button" data-qty="1" aria-label="+">+</button></div>
+        </div>
+        <div class="field" data-donate-amount-row hidden>
+          <span data-i18n="donate.amount">Valor do presente</span>
+          <div class="amounts" data-amounts></div>
+          <label class="money-input"><span>R$</span><input type="number" inputmode="decimal" min="10" step="1" data-i18n-ph="donate.other" data-donate-amount aria-label="R$"></label>
+        </div>
+
+        <label class="field"><span data-i18n="donate.name">Seu nome</span><input name="name" autocomplete="name" data-i18n-ph="donate.namePh" required></label>
+        <label class="field"><span data-i18n="donate.message">Recadinho (opcional)</span><textarea name="message" rows="2" maxlength="450" data-i18n-ph="donate.messagePh"></textarea></label>
+
+        <div class="sheet__total"><span data-i18n="donate.total">Total</span><strong data-donate-total>R$ 0</strong></div>
+        <div class="sheet__pay">
+          <button class="btn btn--primary btn--lg btn--block" type="submit" value="pix" data-pay="pix">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 9-9 9-9-9 9-9Z"/><path d="M8.5 12h7"/></svg><span data-i18n="donate.pix">Pagar com Pix</span>
+          </button>
+          <button class="btn btn--ghost btn--lg btn--block" type="submit" value="card" data-pay="card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10.5h18"/></svg><span data-i18n="donate.card">Pagar com cartão</span>
+          </button>
+        </div>
+        <p class="sheet__note muted" data-donate-note data-i18n="donate.pixNote"></p>
+        <p class="form-error" data-donate-error role="alert"></p>
       </form>
-    </div>
 
-    <form class="drawer__body" data-step="details" hidden data-details-form>
-      <label class="field">Seu nome<input name="name" required autocomplete="name" placeholder="Para sabermos quem agradecer"></label>
-      <label class="field">Recadinho <span class="muted">(opcional)</span><textarea name="message" rows="3" maxlength="450" placeholder="A gente ama ler 💛"></textarea></label>
-      <fieldset class="pay-methods">
-        <legend class="label">Forma de pagamento</legend>
-        <label class="pay-method" data-method-pix>
-          <input type="radio" name="method" value="pix" checked>
-          <span class="pay-method__icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 9-9 9-9-9 9-9Z"/><path d="M8 12h8"/></svg>
-          </span>
-          <span><strong>Pix</strong><small>Na hora, sem taxas</small></span>
-        </label>
-        <label class="pay-method" data-method-card>
-          <input type="radio" name="method" value="card">
-          <span class="pay-method__icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10.5h18"/></svg>
-          </span>
-          <span><strong>Cartão de crédito</strong><small>Pagamento seguro via Stripe</small></span>
-        </label>
-      </fieldset>
-      <p class="form-error" data-error role="alert"></p>
-    </form>
-
-    <div class="drawer__body pix" data-step="pix" hidden>
-      <div class="pix__qr" data-pix-qr></div>
-      <p class="pix__hint">Abra o app do banco → <b>Pix</b> → <b>Ler QR code</b>, ou copie o código:</p>
-      <div class="pix__copy">
-        <input readonly data-pix-payload aria-label="Código Pix copia e cola">
-        <button class="btn btn--primary btn--sm" type="button" data-copy-pix>Copiar</button>
+      <div class="sheet__view sheet__pix" data-view="pix" hidden>
+        <h2 data-i18n="pix.title">Pague com Pix</h2>
+        <p class="sheet__total-big" data-pix-total></p>
+        <div class="pix__qr" data-pix-qr></div>
+        <p class="pix__hint" data-i18n="pix.hint"></p>
+        <div class="pix__copy">
+          <input readonly data-pix-payload aria-label="Pix">
+          <button class="btn btn--ghost" type="button" data-copy-pix data-i18n="pix.copy">Copiar código</button>
+        </div>
+        <p class="pix__receiver muted" data-pix-receiver></p>
+        <button class="btn btn--primary btn--lg btn--block" type="button" data-pix-done data-i18n="pix.done">Já fiz o Pix</button>
+        <button class="btn btn--link" type="button" data-pix-back data-i18n="pix.back">Voltar</button>
       </div>
-      <p class="pix__receiver muted" data-pix-receiver></p>
     </div>
-
-    <div class="drawer__foot">
-      <div class="drawer__total"><span>Total</span><strong data-cart-total>R$ 0</strong></div>
-      <button class="btn btn--primary btn--block btn--lg" type="button" data-next>Presentear</button>
-      <button class="btn btn--link" type="button" data-back hidden>Voltar</button>
-    </div>
-  </aside>
+  </dialog>
 
   <div class="toast" data-toast role="status" aria-live="polite"></div>
 </body>

@@ -111,13 +111,18 @@
   let filter = 'all';
   let search = '';
 
+  // WhatsApp message in the invite's language.
+  const LANG_INFO = { pt: { flag: '🇧🇷', locale: 'pt-BR' }, en: { flag: '🇺🇸', locale: 'en-US' }, es: { flag: '🇪🇸', locale: 'es-ES' } };
   function inviteMessage(inv) {
-    return [
-      `Olá, ${inv.name}! 💍`,
-      `${couple} vão se casar no dia ${cfg.dateLabel.replace(/^\w+,\s*/, '')}, em ${cfg.city.split(' · ').slice(0, 2).join(' - ')}.`,
-      `Reservamos lugar para ${people(inv.seats)}. Confirme sua presença em um toque:`,
-      inv.link,
-    ].join('\n');
+    const lang = LANG_INFO[inv.lang] ? inv.lang : 'pt';
+    const date = new Intl.DateTimeFormat(LANG_INFO[lang].locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Sao_Paulo' }).format(new Date(cfg.date));
+    const n = inv.seats;
+    const msg = {
+      pt: [`Olá, ${inv.name}! 💍`, `${couple} vão se casar no dia ${date}, em ${cfg.cityShort}.`, `Reservamos lugar para ${n} ${n === 1 ? 'pessoa' : 'pessoas'}. Abra o seu convite e confirme em um toque:`],
+      en: [`Hi ${inv.name}! 💍`, `${couple} are getting married on ${date}, in ${cfg.cityShort}, Brazil.`, `We have saved ${n} ${n === 1 ? 'seat' : 'seats'} for you. Open your invitation and RSVP in one tap:`],
+      es: [`¡Hola, ${inv.name}! 💍`, `${couple} se casan el ${date}, en ${cfg.cityShort}, Brasil.`, `Reservamos ${n} ${n === 1 ? 'lugar' : 'lugares'} para ustedes. Abre tu invitación y confirma con un toque:`],
+    }[lang];
+    return [...msg, inv.link].join('\n');
   }
 
   async function copy(text, msg) {
@@ -144,6 +149,8 @@
             h('div', { className: 'cell-title', textContent: inv.name }),
             h('div', { className: 'cell-sub', textContent: inv.phone ? phoneFmt(inv.phone) : 'sem WhatsApp' })),
           h('td', { dataset: { label: 'Pessoas' }, textContent: inv.seats }),
+          h('td', { dataset: { label: 'Idioma' }, textContent: `${(LANG_INFO[inv.lang] || LANG_INFO.pt).flag} ${(inv.lang || 'pt').toUpperCase()}` }),
+          h('td', { dataset: { label: 'Presentes' }, textContent: inv.gift_mode === 'simple' ? '💛 Só contribuição' : '🎁 Lista' }),
           h('td', { dataset: { label: 'Resposta' } },
             statusBadge(inv),
             h('div', { className: 'cell-sub', textContent: inv.opened_at ? '👀 abriu o convite' : 'ainda não abriu' })),
@@ -188,7 +195,7 @@
     try {
       const inv = await api('/api/admin/invites', {
         method: 'POST',
-        body: { name: form.name.value, seats: form.seats.value, phone: form.phone.value },
+        body: { name: form.name.value, seats: form.seats.value, phone: form.phone.value, lang: form.lang.value, gift_mode: form.gift_mode.value },
       });
       form.name.value = '';
       form.phone.value = '';
@@ -219,6 +226,8 @@
     editForm.seats.value = inv.seats;
     editForm.phone.value = inv.phone || '';
     editForm.notes.value = inv.notes || '';
+    editForm.lang.value = inv.lang || 'pt';
+    editForm.gift_mode.value = inv.gift_mode || 'items';
     editForm.status.value = inv.status;
     $('[data-edit-error]').textContent = '';
     dialog.showModal();
@@ -234,6 +243,8 @@
           seats: editForm.seats.value,
           phone: editForm.phone.value,
           notes: editForm.notes.value,
+          lang: editForm.lang.value,
+          gift_mode: editForm.gift_mode.value,
           status: editForm.status.value,
         },
       });

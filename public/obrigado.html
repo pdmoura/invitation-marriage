@@ -2,35 +2,41 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Obrigado!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Obrigado! · Thank you! · ¡Gracias!</title>
   <meta name="robots" content="noindex">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
   <script src="/config.js"></script>
+  <script src="/i18n.js"></script>
   <style>
     .thanks { min-height: 100svh; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
-    .thanks__photo { border-radius: var(--radius-lg); aspect-ratio: auto; }
-    .thanks__card { display: flex; flex-direction: column; justify-content: center; padding: clamp(32px, 6vw, 96px); }
-    .thanks h1 { font-size: clamp(3.4rem, 8vw, 7rem); line-height: .92; margin-bottom: 24px; animation: rise 1s var(--ease) both; }
-    .thanks h1 em { color: var(--clay); }
-    .thanks .lead { margin-bottom: 36px; animation: rise 1s .12s var(--ease) both; }
-    .thanks__actions { display: flex; flex-wrap: wrap; gap: 10px; animation: rise 1s .24s var(--ease) both; }
-    @media (max-width: 860px) { .thanks { grid-template-columns: 1fr; } .thanks__photo { aspect-ratio: 16 / 10; } }
+    .thanks__photo { border-radius: var(--radius-lg); aspect-ratio: auto; animation: rise 1.2s var(--ease) both; }
+    .thanks__card { display: flex; flex-direction: column; justify-content: center; padding: clamp(28px, 6vw, 96px); }
+    .thanks h1 { font-size: clamp(3.2rem, 8vw, 7rem); line-height: .95; margin-bottom: 22px; animation: rise 1s .1s var(--ease) both; }
+    .thanks h1 i { color: var(--clay); }
+    .thanks .lead { margin-bottom: 32px; animation: rise 1s .2s var(--ease) both; }
+    .thanks__actions { display: grid; gap: 10px; max-width: 420px; animation: rise 1s .3s var(--ease) both; }
+    @media (max-width: 860px) {
+      .thanks { grid-template-columns: 1fr; align-content: start; }
+      .thanks__photo { aspect-ratio: 4 / 3; border-radius: 26px; }
+      .thanks__card { padding: 28px 14px 40px; }
+      .thanks__actions { max-width: none; }
+    }
   </style>
 </head>
 <body>
   <main class="thanks">
-    <figure class="photo thanks__photo"><img src="/img/site/toast.jpg" alt="" data-photo></figure>
+    <figure class="photo thanks__photo"><img src="/img/site/thanks.jpg" alt=""></figure>
     <div class="thanks__card">
-      <p class="label">Presente recebido</p>
-      <h1>Muito <em>obrigado!</em></h1>
-      <p class="lead" data-text>Seu presente chegou com todo o carinho. Prometemos usar com sabedoria (ou quase).</p>
+      <p class="label" data-t="thanks.label"></p>
+      <h1 data-title></h1>
+      <p class="lead" data-text></p>
       <div class="thanks__actions">
-        <a class="btn btn--primary btn--lg" data-whatsapp target="_blank" rel="noopener" hidden>Avisar os noivos no WhatsApp</a>
-        <a class="btn btn--ghost btn--lg" href="/" data-back>Voltar ao convite</a>
+        <a class="btn btn--primary btn--lg" data-whatsapp target="_blank" rel="noopener" hidden data-t="thanks.whatsapp"></a>
+        <a class="btn btn--ghost btn--lg" href="/" data-back data-t="thanks.back"></a>
       </div>
     </div>
   </main>
@@ -39,36 +45,30 @@
       const cfg = window.WEDDING;
       const params = new URLSearchParams(location.search);
       const method = params.get('metodo');
+      const read = (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } };
+      const lang = ['pt', 'en', 'es'].find((l) => l === params.get('lang')) || read('wedding-lang') || 'pt';
+      const dict = window.I18N[lang] || window.I18N.pt;
+      const t = (k, v = {}) => String(dict[k] ?? window.I18N.pt[k]).replace(/\{(\w+)\}/g, (_, x) => v[x] ?? '');
+      document.documentElement.lang = dict.locale;
+
       let guest = {};
       try { guest = JSON.parse(sessionStorage.getItem('wedding-guest')) || {}; } catch {}
-      try { localStorage.removeItem('wedding-cart'); localStorage.removeItem('wedding-custom'); } catch {}
-      try {
-        const token = JSON.parse(localStorage.getItem('wedding-invite'));
-        if (token) document.querySelector('[data-back]').href = `/c/${token}`;
-      } catch {}
+      const token = read('wedding-invite');
+      if (token) document.querySelector('[data-back]').href = `/c/${token}`;
+
       // Card payments: confirm with Stripe so the gift shows up in the admin panel even without a webhook.
       const sessionId = params.get('session_id');
-      if (method === 'cartao' && sessionId) {
-        fetch(`/api/checkout/confirm?session_id=${encodeURIComponent(sessionId)}`).catch(() => {});
-      }
+      if (method === 'cartao' && sessionId) fetch(`/api/checkout/confirm?session_id=${encodeURIComponent(sessionId)}`).catch(() => {});
 
-      const first = guest.name ? guest.name.split(' ')[0] : '';
-      if (first) {
-        document.querySelector('h1').innerHTML = 'Obrigado, <em></em>!';
-        document.querySelector('h1 em').textContent = first;
-      }
-      const img = document.querySelector('[data-photo]');
-      img.addEventListener('error', () => { img.style.visibility = 'hidden'; });
-      if (method === 'pix') {
-        document.querySelector('[data-text]').textContent =
-          'Assim que o Pix cair, a gente comemora com uma dancinha. Se quiser, mande um aviso pra gente saber que foi você!';
-      }
+      document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t(el.dataset.t); });
+      const title = document.querySelector('[data-title]');
+      const first = (guest.name || '').trim().split(/\s+/)[0];
+      if (first) { title.innerHTML = t('thanks.titleName', { name: '<span></span>' }); title.querySelector('span').textContent = first; }
+      else title.innerHTML = t('thanks.title');
+      document.querySelector('[data-text]').textContent = method === 'pix' ? t('thanks.pixText') : t('thanks.text');
+
       if (cfg.whatsapp) {
-        const msg = [
-          `🎁 Acabei de enviar um presente de casamento${method === 'pix' ? ' via Pix' : ' pelo site'}!`,
-          guest.name ? `— ${guest.name}` : null,
-          guest.message ? `\n"${guest.message}"` : null,
-        ].filter(Boolean).join('\n');
+        const msg = [t('thanks.waMsg'), guest.name ? `— ${guest.name}` : null, guest.message ? `\n"${guest.message}"` : null].filter(Boolean).join('\n');
         const a = document.querySelector('[data-whatsapp]');
         a.href = `https://wa.me/${cfg.whatsapp}?text=${encodeURIComponent(msg)}`;
         a.hidden = false;

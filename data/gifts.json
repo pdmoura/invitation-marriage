@@ -4,224 +4,176 @@
     "min": 10,
     "max": 50000
   },
-  "categories": [
-    {
-      "id": "lua-de-mel",
-      "label": "Lua de mel"
-    },
-    {
-      "id": "casa",
-      "label": "Casinha nova"
-    },
-    {
-      "id": "noivo",
-      "label": "Para el novio"
-    },
-    {
-      "id": "noiva",
-      "label": "Para a noiva"
-    },
-    {
-      "id": "zoeira",
-      "label": "Zoeira"
-    }
-  ],
   "items": [
     {
-      "id": "cota-lua-de-mel",
-      "category": "lua-de-mel",
+      "id": "passagens",
       "emoji": "✈️",
-      "title": "Cota da lua de mel",
-      "description": "Para o casal sumir por uns dias e voltar bronzeado, descansado e sem responder grupo de WhatsApp.",
-      "price": 2000,
-      "tag": "Mais pedido",
+      "price": 500,
       "repeatable": true,
-      "unsplash": "Q1TYCcqq0FY"
+      "tag": "popular",
+      "title": {
+        "pt": "Cota das passagens da lua de mel",
+        "en": "Honeymoon flights (a share)",
+        "es": "Parte de los pasajes de la luna de miel"
+      },
+      "description": {
+        "pt": "Ajude a gente a chegar lá. A volta a gente vê depois.",
+        "en": "Help us get there. We'll figure out the way back later.",
+        "es": "Ayúdanos a llegar. La vuelta la vemos después."
+      }
     },
     {
-      "id": "jantar-luz-de-velas",
-      "category": "lua-de-mel",
+      "id": "hotel-praia",
+      "emoji": "🏝️",
+      "price": 700,
+      "repeatable": true,
+      "title": {
+        "pt": "Uma noite no hotel pé na areia",
+        "en": "A night at a beachfront hotel",
+        "es": "Una noche en un hotel frente al mar"
+      },
+      "description": {
+        "pt": "Barulho do mar e nenhum despertador.",
+        "en": "Sound of the sea, no alarm clock.",
+        "es": "El sonido del mar y ningún despertador."
+      }
+    },
+    {
+      "id": "jantar-mar",
       "emoji": "🕯️",
-      "title": "Jantar à luz de velas na praia",
-      "description": "Com vista pro mar e sem ninguém perguntando \"e os filhos, quando vêm?\".",
-      "price": 450,
-      "unsplash": "PyL-lApI1F8"
+      "price": 350,
+      "title": {
+        "pt": "Jantar com vista para o mar",
+        "en": "Dinner with an ocean view",
+        "es": "Cena con vista al mar"
+      },
+      "description": {
+        "pt": "Um brinde em sua homenagem, prometido.",
+        "en": "We'll raise a glass to you, promise.",
+        "es": "Brindaremos por ti, prometido."
+      }
     },
     {
-      "id": "drinks-guarda-chuvinha",
-      "category": "lua-de-mel",
+      "id": "drinks-piscina",
       "emoji": "🍹",
-      "title": "Rodada de drinks com guarda-chuvinha",
-      "description": "Hidratação é importante. Principalmente se vier com abacaxi e guarda-chuvinha.",
-      "price": 90,
-      "repeatable": true,
-      "unsplash": "dsM93c1RJa8"
-    },
-    {
-      "id": "massagem-casal",
-      "category": "lua-de-mel",
-      "emoji": "💆",
-      "title": "Massagem de casal pós-organização",
-      "description": "Para curar o estresse de 14 planilhas, 3 orçamentos de buffet e 1 mapa de mesas.",
-      "price": 400,
-      "unsplash": "CLiwQXx7kT8"
-    },
-    {
-      "id": "protetor-fps-100",
-      "category": "lua-de-mel",
-      "emoji": "🧴",
-      "title": "Protetor FPS 100 pro noivo",
-      "description": "Porque ele vira camarão em 15 minutos de sol. Comprovado cientificamente.",
-      "price": 60,
-      "unsplash": "UvxGbB04PKk"
-    },
-    {
-      "id": "upgrade-janela",
-      "category": "lua-de-mel",
-      "emoji": "🪟",
-      "title": "Upgrade pro lugar da janela",
-      "description": "Evita a primeira DR do casamento, que seria no avião.",
       "price": 120,
-      "unsplash": "gdxOGN_fTjE"
+      "repeatable": true,
+      "title": {
+        "pt": "Drinks na beira da piscina",
+        "en": "Poolside drinks",
+        "es": "Tragos junto a la piscina"
+      },
+      "description": {
+        "pt": "Com guarda-chuvinha, claro.",
+        "en": "With a tiny umbrella, of course.",
+        "es": "Con sombrillita, por supuesto."
+      }
     },
     {
-      "id": "frigideira-ovos",
-      "category": "casa",
+      "id": "massagem",
+      "emoji": "💆",
+      "price": 400,
+      "title": {
+        "pt": "Massagem para o casal",
+        "en": "Couples massage",
+        "es": "Masaje para la pareja"
+      },
+      "description": {
+        "pt": "Para recuperar das planilhas do casamento.",
+        "en": "To recover from all the wedding spreadsheets.",
+        "es": "Para recuperarnos de las planillas de la boda."
+      }
+    },
+    {
+      "id": "frigideira",
       "emoji": "🍳",
-      "title": "Frigideira pra fritar uns ovos",
-      "description": "O café da manhã de casados começa aqui. Quem lava depois? Problema deles.",
       "price": 30,
-      "tag": "Barato e útil",
-      "unsplash": "HgsqAYgDt9U"
-    },
-    {
-      "id": "aspirador-robo",
-      "category": "casa",
-      "emoji": "🤖",
-      "title": "Aspirador robô",
-      "description": "Encerra para sempre a discussão \"hoje é sua vez de varrer\".",
-      "price": 900,
-      "unsplash": "54gQ8y6Ey7Y"
-    },
-    {
-      "id": "edredom-gigante",
-      "category": "casa",
-      "emoji": "🛏️",
-      "title": "Edredom king size",
-      "description": "Grande o suficiente para acabar com a guerra do cobertor às 3 da manhã.",
-      "price": 220,
-      "unsplash": "9IFbmglOszs"
+      "tag": "cheap",
+      "title": {
+        "pt": "Frigideira para os ovos de domingo",
+        "en": "A pan for Sunday eggs",
+        "es": "Sartén para los huevos del domingo"
+      },
+      "description": {
+        "pt": "O café da manhã de casados começa aqui.",
+        "en": "Married-life breakfasts start here.",
+        "es": "Los desayunos de casados empiezan aquí."
+      }
     },
     {
       "id": "cafeteira",
-      "category": "casa",
       "emoji": "☕",
-      "title": "Cafeteira: combustível do casamento",
-      "description": "Nenhuma conversa importante antes do primeiro café. Regra da casa.",
       "price": 350,
-      "unsplash": "CYEjlYzdHYo"
+      "title": {
+        "pt": "Cafeteira",
+        "en": "Coffee machine",
+        "es": "Cafetera"
+      },
+      "description": {
+        "pt": "Café brasileiro, agora no México. Combustível oficial do casal.",
+        "en": "Brazilian coffee, now in Mexico. Our official fuel.",
+        "es": "Café brasileño, ahora en México. Nuestro combustible oficial."
+      }
     },
     {
-      "id": "kit-panelas",
-      "category": "casa",
+      "id": "panelas",
       "emoji": "🥘",
-      "title": "Jogo de panelas",
-      "description": "Para ele fingir que sabe cozinhar e ela fingir que acredita.",
       "price": 280,
-      "unsplash": "3dmD-6PN-hM"
+      "title": {
+        "pt": "Jogo de panelas",
+        "en": "Cookware set",
+        "es": "Juego de ollas"
+      },
+      "description": {
+        "pt": "Para a nossa primeira cozinha no México.",
+        "en": "For our first kitchen in Mexico.",
+        "es": "Para nuestra primera cocina en México."
+      }
     },
     {
-      "id": "pantalones-spiderman",
-      "category": "noivo",
+      "id": "spiderman",
       "emoji": "🕷️",
-      "title": "Pantalones de Spider-Man para el novio",
-      "description": "Un gran poder conlleva una gran responsabilidad… como lavar los platos.",
       "price": 99,
-      "tag": "Hit",
-      "unsplash": "tBAsD_VnxCY"
+      "title": {
+        "pt": "Pantalones de Spider-Man para el novio",
+        "en": "Spider-Man pants for the groom",
+        "es": "Pantalones de Spider-Man para el novio"
+      },
+      "description": {
+        "pt": "Grandes poderes, grandes responsabilidades: lavar a louça.",
+        "en": "With great power comes great responsibility: the dishes.",
+        "es": "Un gran poder conlleva una gran responsabilidad: lavar los platos."
+      }
     },
     {
-      "id": "clases-de-baile",
-      "category": "noivo",
-      "emoji": "🕺",
-      "title": "Clases de baile para el novio",
-      "description": "Para que la primera danza no parezca un tutorial de cómo NO bailar.",
-      "price": 250,
-      "unsplash": "ZXO5V0qZJGU"
+      "id": "aulas-danca",
+      "emoji": "💃",
+      "price": 200,
+      "title": {
+        "pt": "Aulas de dança para a valsa",
+        "en": "Dance lessons for our first dance",
+        "es": "Clases de baile para el vals"
+      },
+      "description": {
+        "pt": "Para a primeira dança não virar meme.",
+        "en": "So our first dance doesn't go viral.",
+        "es": "Para que el primer baile no se vuelva meme."
+      }
     },
     {
-      "id": "control-videojuego",
-      "category": "noivo",
-      "emoji": "🎮",
-      "title": "Segundo controle de videogame",
-      "description": "Agora o player 2 é oficial. Com aliança e tudo.",
-      "price": 380,
-      "unsplash": "y6U-DTU99bg"
-    },
-    {
-      "id": "sapato-confortavel",
-      "category": "noiva",
-      "emoji": "🩴",
-      "title": "Chinelo pós-festa da noiva",
-      "description": "Salto alto até a valsa. Depois disso, liberdade total.",
-      "price": 80,
-      "unsplash": "glfcz6er-nA"
-    },
-    {
-      "id": "dia-de-spa",
-      "category": "noiva",
-      "emoji": "🧖‍♀️",
-      "title": "Dia de spa para a noiva",
-      "description": "Para ela se recuperar da organização do casamento. E do noivo.",
-      "price": 300,
-      "unsplash": "Pe9IXUuC6QU"
-    },
-    {
-      "id": "taxa-celular",
-      "category": "zoeira",
-      "emoji": "📱",
-      "title": "Taxa pro noivo olhar o celular no dia",
-      "description": "Cada espiada no placar do jogo durante a cerimônia custa caro.",
-      "price": 50,
-      "unsplash": "sKGpCOu_voE"
-    },
-    {
-      "id": "seguro-bebe",
-      "category": "zoeira",
-      "emoji": "👶",
-      "title": "Seguro contra o \"e o bebê, quando vem?\"",
-      "description": "Cobre até 30 perguntas inconvenientes da família por almoço de domingo.",
-      "price": 70,
-      "unsplash": "9BMvbnkwVZ0"
-    },
-    {
-      "id": "musica-dj",
-      "category": "zoeira",
-      "emoji": "🎧",
-      "title": "Direito de pedir uma música pro DJ",
-      "description": "Sujeito à aprovação da noiva. Sertanejo sofrência: só depois da 1h.",
-      "price": 120,
-      "repeatable": true,
-      "unsplash": "X4e8n5ncOEs"
-    },
-    {
-      "id": "pizza-madrugada",
-      "category": "zoeira",
+      "id": "pizza",
       "emoji": "🍕",
-      "title": "Pizza da madrugada pós-festa",
-      "description": "Porque ninguém come direito no próprio casamento. É fato.",
-      "price": 85,
-      "unsplash": "UqxJkKP_DjA"
-    },
-    {
-      "id": "boleto-buffet",
-      "category": "zoeira",
-      "emoji": "🧾",
-      "title": "Ajuda pra pagar o boleto do buffet",
-      "description": "Você comeu bem? Então você sabe o que fazer.",
-      "price": 500,
-      "repeatable": true,
-      "unsplash": "aQWmCH_b3MU"
+      "price": 80,
+      "title": {
+        "pt": "Pizza da madrugada pós-festa",
+        "en": "After-party pizza",
+        "es": "Pizza de madrugada después de la fiesta"
+      },
+      "description": {
+        "pt": "Ninguém come direito no próprio casamento.",
+        "en": "Nobody really eats at their own wedding.",
+        "es": "Nadie come bien en su propia boda."
+      }
     }
   ]
 }

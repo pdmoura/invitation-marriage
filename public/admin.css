@@ -53,6 +53,7 @@
 .inline-form { display: flex; gap: 8px; flex-wrap: wrap; }
 .inline-form input { flex: 1 1 160px; }
 .inline-form input[name='seats'] { flex: 0 0 90px; }
+.inline-form select { flex: 0 0 160px; width: auto; }
 .inline-form input[name='amount'] { flex: 0 0 130px; }
 .import summary { cursor: pointer; color: var(--olive); font-weight: 600; font-size: .9rem; }
 .import form { display: grid; gap: 10px; margin-top: 10px; max-width: 640px; }
@@ -116,7 +117,7 @@
   .table td[data-label]::before { content: attr(data-label) ': '; color: var(--muted); font-size: .78rem; }
   .table .right { text-align: left; }
   .actions { justify-content: flex-start; padding-top: 6px; }
-  .inline-form input, .inline-form input[name='seats'], .inline-form input[name='amount'] { flex: 1 1 100%; }
+  .inline-form input, .inline-form input[name='seats'], .inline-form input[name='amount'], .inline-form select { flex: 1 1 100%; }
   .inline-form .btn { width: 100%; }
   .toolbar .chips { order: 3; width: 100%; flex-wrap: nowrap; overflow-x: auto; }
 }
