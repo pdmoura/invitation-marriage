@@ -9,6 +9,10 @@ const db = await openDb({
   databaseUrl: env.DATABASE_URL,
   sqliteFile: env.SQLITE_FILE || new URL('./data/wedding.db', import.meta.url).pathname,
 });
+if (env.SEED_DEMO === 'true') {
+  const { seedDemo } = await import('./lib/seed.js');
+  console.log(`  Demo invites: ${(await seedDemo(db)).join(', ')}`);
+}
 const stripe = env.STRIPE_SECRET_KEY ? new Stripe(env.STRIPE_SECRET_KEY) : null;
 const app = createApp({ db, env, stripe });
 
